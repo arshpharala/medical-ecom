@@ -85,8 +85,7 @@ class CartController extends Controller
     public function update(Request $request, $variantId)
     {
         $request->validate([
-            'variant_id' => 'required|uuid',
-            'qty'        => 'required|integer|min:1',
+            'qty' => 'required|integer|min:1',
         ]);
 
         $variant = ProductVariant::with('offers')->findOrFail($variantId);

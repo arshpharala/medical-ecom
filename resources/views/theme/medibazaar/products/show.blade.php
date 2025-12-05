@@ -217,14 +217,19 @@
                     <div class="col-xl-4 cl-lg-4 col-md-6">
                         <div class="product-wrapper text-center mb-45">
                             <div class="product-img pos-rel">
-                                <a href="product-details.html">
-                                    <img src="{{ $variant->image }}" alt="">
+                                <a href="{{ $variant->link }}">
+                                    <img src="{{ $variant->image }}" alt="{{ $variant->name }}">
                                     <img class="secondary-img" src="{{ $variant->image }}" alt="{{ $variant->name }}">
                                 </a>
                                 <div class="product-action">
-                                    <a class="action-btn" href="#"><i class="far fa-heart"></i></a>
-                                    <a class="c-btn" href="#">add to cart <i class="far fa-plus"></i></a>
-                                    <a class="action-btn" href="#"><i class="far fa-search"></i></a>
+                                    <button class="action-btn wishlist-btn {{ $variant->is_wishlisted ? 'is-active' : '' }}"
+                                            data-variant-id="{{ $variant->id }}">
+                                        <i class="far fa-heart"></i>
+                                    </button>
+                                    <button class="c-btn add-to-cart-btn" data-variant-id="{{ $variant->id }}">
+                                        add to cart <i class="far fa-plus"></i>
+                                    </button>
+                                    <a class="action-btn" href="{{ $variant->link }}"><i class="far fa-search"></i></a>
                                 </div>
                             </div>
                             <div class="product-text">
@@ -235,66 +240,6 @@
                         </div>
                     </div>
                 @endforeach
-                <div class="col-xl-4">
-                    <div class="product-wrapper text-center">
-                        <div class="product-img pos-rel">
-                            <a href="#">
-                                <img src="assets/img/products/02.jpg" alt="">
-                                <img class="secondary-img" src="assets/img/products/03.jpg" alt="">
-                            </a>
-                            <div class="product-action">
-                                <a class="action-btn" href="#"><i class="far fa-heart"></i></a>
-                                <a class="c-btn" href="#">add to cart <i class="far fa-plus"></i></a>
-                                <a class="action-btn" href="#"><i class="far fa-search"></i></a>
-                            </div>
-                        </div>
-                        <div class="product-text">
-                            <h5>hand sanitizer</h5>
-                            <h4><a href="#">Hand Sanitizer Covid -19</a></h4>
-                            <span>$250.99</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4">
-                    <div class="product-wrapper text-center">
-                        <div class="product-img pos-rel">
-                            <a href="#">
-                                <img src="assets/img/products/03.jpg" alt="">
-                                <img class="secondary-img" src="assets/img/products/04.jpg" alt="">
-                            </a>
-                            <div class="product-action">
-                                <a class="action-btn" href="#"><i class="far fa-heart"></i></a>
-                                <a class="c-btn" href="#">add to cart <i class="far fa-plus"></i></a>
-                                <a class="action-btn" href="#"><i class="far fa-search"></i></a>
-                            </div>
-                        </div>
-                        <div class="product-text">
-                            <h5>home accessories</h5>
-                            <h4><a href="#">Medical Thermometer</a></h4>
-                            <span>$250.99</span>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4">
-                    <div class="product-wrapper text-center">
-                        <div class="product-img pos-rel">
-                            <a href="#">
-                                <img src="assets/img/products/01.jpg" alt="">
-                                <img class="secondary-img" src="assets/img/products/02.jpg" alt="">
-                            </a>
-                            <div class="product-action">
-                                <a class="action-btn" href="#"><i class="far fa-heart"></i></a>
-                                <a class="c-btn" href="#">add to cart <i class="far fa-plus"></i></a>
-                                <a class="action-btn" href="#"><i class="far fa-search"></i></a>
-                            </div>
-                        </div>
-                        <div class="product-text">
-                            <h5>accessories</h5>
-                            <h4><a href="#">Medical Microscope</a></h4>
-                            <span>$250.99</span>
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

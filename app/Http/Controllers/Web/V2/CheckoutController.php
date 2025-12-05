@@ -53,7 +53,7 @@ class CheckoutController extends Controller
             $data['cards']          = $user->cards()->latest()->get();
         }
 
-        return view('theme.xtremez.checkout', $data);
+        return view('theme.medibazaar.checkout', $data);
     }
 
     public function processOrder(StoreOrderRequest $request)
@@ -324,6 +324,6 @@ class CheckoutController extends Controller
 
         $this->cart->clear();
 
-        return view('theme.xtremez.order-confirmation', $data);
+        return view('theme.medibazaar.order-confirmation', $data);
     }
 }

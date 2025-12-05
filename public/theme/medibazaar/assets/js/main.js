@@ -970,3 +970,90 @@ $(document).on('click', '.wishlist-btn', function () {
         alert('Unable to update wishlist.');
     });
 });
+
+// Add to Cart Handler
+$(document).on('click', '.add-to-cart-btn', function (e) {
+    e.preventDefault();
+    const $btn = $(this);
+    const variantId = $btn.data('variant-id');
+
+    // Get quantity - check for custom selector first, then look for common qty inputs
+    let qty = 1;
+    const qtySelector = $btn.data('qty-selector');
+    if (qtySelector) {
+        qty = parseInt($(qtySelector).val()) || 1;
+    } else {
+        qty = parseInt($btn.closest('.product-card, .product-wrapper, .shop-product, .product-details-wrapper, .product-action-details')
+            .find('.qty-input, .cart-plus-minus input, #qtyInput').val()) || 1;
+    }
+
+    if (!variantId) {
+        console.error('No variant ID found');
+        return;
+    }
+
+    // Show loading state
+    const originalHtml = $btn.html();
+    $btn.prop('disabled', true).html('<i class="far fa-spinner fa-spin"></i>');
+
+    $.ajax({
+        url: `${appUrl}/cart`,
+        method: 'POST',
+        data: {
+            variant_id: variantId,
+            qty: parseInt(qty)
+        },
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content
+        },
+        success: function (response) {
+            if (response.success) {
+                // Update cart count in header - get number of unique items
+                const itemCount = response.cart.count || Object.keys(response.cart.items || {}).length;
+
+                // Update all cart count elements
+                $('.cart-count').each(function() {
+                    $(this).text(itemCount);
+                    if (itemCount > 0) {
+                        $(this).css('display', 'flex');
+                    } else {
+                        $(this).css('display', 'none');
+                    }
+                });
+
+                // Show success state
+                $btn.html('<i class="far fa-check"></i>').addClass('btn-success').css('background', '#28a745');
+
+                // Show toast notification if available
+                if (typeof showToast === 'function') {
+                    showToast('Product added to cart!', 'success');
+                }
+
+                setTimeout(() => {
+                    $btn.html(originalHtml).removeClass('btn-success').prop('disabled', false).css('background', '');
+                }, 2000);
+            }
+        },
+        error: function (xhr) {
+            console.error('Add to cart error:', xhr);
+            $btn.html(originalHtml).prop('disabled', false);
+
+            const message = xhr.responseJSON?.message || 'Failed to add to cart';
+            alert(message);
+        }
+    });
+});
+
+// Quick quantity update on product pages
+$(document).on('click', '.qty-btn-plus', function () {
+    const input = $(this).siblings('.qty-input');
+    input.val(parseInt(input.val() || 0) + 1);
+});
+
+$(document).on('click', '.qty-btn-minus', function () {
+    const input = $(this).siblings('.qty-input');
+    const val = parseInt(input.val() || 1);
+    if (val > 1) {
+        input.val(val - 1);
+    }
+});

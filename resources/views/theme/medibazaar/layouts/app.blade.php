@@ -4,6 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     {!! render_meta_tags($meta ?? null) !!}
     <link rel="manifest" href="site.webmanifest">
     <link rel="shortcut icon" type="image/x-icon" href="{{ asset('theme/medibazaar/assets/img/favicon.ico') }}">
@@ -40,6 +41,42 @@
             justify-content: center !important;
             align-items: center !important;
         }
+
+        /* Cart Icon Styling */
+        .header-cart {
+            position: relative;
+            padding: 10px 15px;
+        }
+        .header-cart a {
+            color: #333;
+            font-size: 22px;
+            transition: color 0.3s;
+        }
+        .header-cart a:hover {
+            color: #ff6f61;
+        }
+        .header-cart .cart-count {
+            position: absolute;
+            top: 0;
+            right: 5px;
+            background: #ff6f61;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 600;
+            min-width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2px 5px;
+        }
+
+        /* Add to cart button success state */
+        .add-to-cart-btn.btn-success {
+            background-color: #28a745 !important;
+            border-color: #28a745 !important;
+        }
     </style>
 
 </head>
@@ -52,6 +89,9 @@
     @include('theme.medibazaar.layouts.footer')
 
     <!-- JS here -->
+    <script>
+        var appUrl = "{{ url('/') }}";
+    </script>
     <script src="{{ asset('theme/medibazaar/assets/js/vendor/modernizr-3.5.0.min.js') }}"></script>
     <script src="{{ asset('theme/medibazaar/assets/js/vendor/jquery-1.12.4.min.js') }}"></script>
     <script src="{{ asset('theme/medibazaar/assets/js/popper.min.js') }}"></script>

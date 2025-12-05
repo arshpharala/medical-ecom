@@ -21,8 +21,17 @@
                                     <ul>
                                         <li><a href="{{ route('customers.profile') }}"><i
                                                     class="fal fa-user-circle"></i> My Account</a></li>
-                                        <li><a href="{{ route('cart.index') }}"><i class="far fa-cart-plus"></i>
-                                                Cart</a></li>
+                                        <li>
+                                            <a href="{{ route('cart.index') }}" class="position-relative">
+                                                <i class="far fa-cart-plus"></i> Cart
+                                                @php
+                                                    $cartItems = session('cart', []);
+                                                    $headerCartCount = is_array($cartItems) ? count($cartItems) : 0;
+                                                @endphp
+                                                <span class="cart-count" id="cart-count-top"
+                                                      style="background: #ff6f61; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 50%; position: absolute; top: -8px; right: -10px; {{ $headerCartCount > 0 ? '' : 'display: none;' }}">{{ $headerCartCount }}</span>
+                                            </a>
+                                        </li>
                                         <li><a href="{{ route('customers.profile') }}#wishlist"><i
                                                     class="far fa-heart"></i> Wishlist</a></li>
                                     </ul>
@@ -65,6 +74,18 @@
                                 </div> --}}
                                 <div class="menu-bar info-bar f-right d-none d-md-none d-lg-block">
                                     <a href="#"><i class="fal fa-bars"></i></a>
+                                </div>
+                                <!-- Cart Icon with Count -->
+                                <div class="header-cart f-right d-lg-block" style="margin-right: 20px;">
+                                    <a href="{{ route('cart.index') }}" class="position-relative" style="font-size: 24px; color: #333;">
+                                        <i class="far fa-shopping-cart"></i>
+                                        @php
+                                            $mainCartItems = session('cart', []);
+                                            $mainCartCount = is_array($mainCartItems) ? count($mainCartItems) : 0;
+                                        @endphp
+                                        <span class="cart-count" id="cart-count-main"
+                                              style="position: absolute; top: -10px; right: -15px; background: #ff6f61; color: #fff; font-size: 11px; min-width: 20px; height: 20px; border-radius: 50%; display: {{ $mainCartCount > 0 ? 'flex' : 'none' }}; align-items: center; justify-content: center;">{{ $mainCartCount }}</span>
+                                    </a>
                                 </div>
                                 <div class="header-search f-right d-none d-xl-block">
                                     <form class="header-search-form">

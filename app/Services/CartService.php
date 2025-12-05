@@ -29,7 +29,8 @@ class CartService
             'discount_with_currency'  => price_format(active_currency(), $discount),
             'tax_with_currency'       => price_format(active_currency(), $tax),
             'total_with_currency'     => price_format(active_currency(), $total),
-            'count'     => $this->getItemCount(),
+            'count'     => $this->getUniqueItemCount(),  // Number of unique products (for cart icon badge)
+            'totalQty'  => $this->getItemCount(),        // Total quantity of all items
             'coupon'    => $this->getCoupon(),
         ]);
     }
@@ -128,7 +129,14 @@ class CartService
 
     public function getItemCount(): int
     {
+        // Returns total quantity of all items
         return array_sum(array_column($this->getItems(), 'qty'));
+    }
+
+    public function getUniqueItemCount(): int
+    {
+        // Returns number of unique products in cart
+        return count($this->getItems());
     }
 
 

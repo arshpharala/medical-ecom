@@ -127,16 +127,20 @@
                                 <div class="col-xl-4 cl-lg-4 col-md-6">
                                     <div class="product-wrapper text-center mb-45">
                                         <div class="product-img pos-rel">
-                                            <a href="product-details.html">
-                                                <img src="{{ $variant->image }}" alt="">
+                                            <a href="{{ $variant->link }}">
+                                                <img src="{{ $variant->image }}" alt="{{ $variant->name }}">
                                                 <img class="secondary-img" src="{{ $variant->image }}"
                                                     alt="{{ $variant->name }}">
                                             </a>
                                             <div class="product-action">
-                                                <a class="action-btn" href="#"><i class="far fa-heart"></i></a>
-                                                <a class="c-btn" href="#">add to cart <i
-                                                        class="far fa-plus"></i></a>
-                                                <a class="action-btn" href="#"><i class="far fa-search"></i></a>
+                                                <button class="action-btn wishlist-btn {{ $variant->is_wishlisted ? 'is-active' : '' }}"
+                                                        data-variant-id="{{ $variant->id }}">
+                                                    <i class="far fa-heart"></i>
+                                                </button>
+                                                <button class="c-btn add-to-cart-btn" data-variant-id="{{ $variant->id }}">
+                                                    add to cart <i class="far fa-plus"></i>
+                                                </button>
+                                                <a class="action-btn" href="{{ $variant->link }}"><i class="far fa-search"></i></a>
                                             </div>
                                         </div>
                                         <div class="product-text">
@@ -155,16 +159,20 @@
                                 <div class="col-xl-4 cl-lg-4 col-md-6">
                                     <div class="product-wrapper text-center mb-45">
                                         <div class="product-img pos-rel">
-                                            <a href="product-details.html">
-                                                <img src="{{ $variant->image }}" alt="">
+                                            <a href="{{ $variant->link }}">
+                                                <img src="{{ $variant->image }}" alt="{{ $variant->name }}">
                                                 <img class="secondary-img" src="{{ $variant->image }}"
                                                     alt="{{ $variant->name }}">
                                             </a>
                                             <div class="product-action">
-                                                <a class="action-btn" href="#"><i class="far fa-heart"></i></a>
-                                                <a class="c-btn" href="#">add to cart <i
-                                                        class="far fa-plus"></i></a>
-                                                <a class="action-btn" href="#"><i class="far fa-search"></i></a>
+                                                <button class="action-btn wishlist-btn {{ $variant->is_wishlisted ? 'is-active' : '' }}"
+                                                        data-variant-id="{{ $variant->id }}">
+                                                    <i class="far fa-heart"></i>
+                                                </button>
+                                                <button class="c-btn add-to-cart-btn" data-variant-id="{{ $variant->id }}">
+                                                    add to cart <i class="far fa-plus"></i>
+                                                </button>
+                                                <a class="action-btn" href="{{ $variant->link }}"><i class="far fa-search"></i></a>
                                             </div>
                                         </div>
                                         <div class="product-text">
@@ -183,16 +191,20 @@
                                 <div class="col-xl-4 cl-lg-4 col-md-6">
                                     <div class="product-wrapper text-center mb-45">
                                         <div class="product-img pos-rel">
-                                            <a href="product-details.html">
-                                                <img src="{{ $variant->image }}" alt="">
+                                            <a href="{{ $variant->link }}">
+                                                <img src="{{ $variant->image }}" alt="{{ $variant->name }}">
                                                 <img class="secondary-img" src="{{ $variant->image }}"
                                                     alt="{{ $variant->name }}">
                                             </a>
                                             <div class="product-action">
-                                                <a class="action-btn" href="#"><i class="far fa-heart"></i></a>
-                                                <a class="c-btn" href="#">add to cart <i
-                                                        class="far fa-plus"></i></a>
-                                                <a class="action-btn" href="#"><i class="far fa-search"></i></a>
+                                                <button class="action-btn wishlist-btn {{ $variant->is_wishlisted ? 'is-active' : '' }}"
+                                                        data-variant-id="{{ $variant->id }}">
+                                                    <i class="far fa-heart"></i>
+                                                </button>
+                                                <button class="c-btn add-to-cart-btn" data-variant-id="{{ $variant->id }}">
+                                                    add to cart <i class="far fa-plus"></i>
+                                                </button>
+                                                <a class="action-btn" href="{{ $variant->link }}"><i class="far fa-search"></i></a>
                                             </div>
                                         </div>
                                         <div class="product-text">
@@ -300,8 +312,13 @@
                                     <img src="{{ $variant->image }}" alt="{{ $variant->name }}">
                                 </a>
                                 <div class="product-action">
-                                    <a class="action-btn" href="#"><i class="far fa-heart"></i></a>
-                                    <a class="action-btn" href="#"><i class="far fa-cart-plus"></i></a>
+                                    <button class="action-btn wishlist-btn {{ $variant->is_wishlisted ? 'is-active' : '' }}"
+                                            data-variant-id="{{ $variant->id }}">
+                                        <i class="far fa-heart"></i>
+                                    </button>
+                                    <button class="action-btn add-to-cart-btn" data-variant-id="{{ $variant->id }}">
+                                        <i class="far fa-cart-plus"></i>
+                                    </button>
                                     <a class="action-btn" href="{{ $variant->link }}"><i class="far fa-eye"></i></a>
                                 </div>
                             </div>
