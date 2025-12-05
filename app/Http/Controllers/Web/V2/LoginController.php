@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\Auth\LoginRequest;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Auth\Events\PasswordReset;
+use Illuminate\Support\Str;
 
 class LoginController extends Controller
 {
@@ -21,8 +24,12 @@ class LoginController extends Controller
     {
         $slug = request()->segment(1);
 
-        $page = (new PageRepository())->findOrFailBySlug($slug);
-
+        $page = null;
+        try {
+            $page = (new PageRepository())->findBySlug($slug);
+        } catch (\Exception $e) {
+            // Page not found, continue without it
+        }
 
         $data['page'] = $page;
         return view('theme.medibazaar.auth.login', $data);
@@ -40,7 +47,7 @@ class LoginController extends Controller
         return response()->json([
             'success' => true,
             'message' => 'Successfully Logged In',
-            'redirect' => route('customers.profile', absolute: false)
+            'redirect' => route('customers.profile')
         ]);
     }
 
@@ -56,9 +63,86 @@ class LoginController extends Controller
 
         return response()->json([
             'success' => true,
-            'message' => 'Successfully Logged In',
+            'message' => 'Successfully Registered!',
             'redirect' => route('customers.profile')
         ]);
+    }
+
+    /**
+     * Display the forgot password view.
+     */
+    public function forgotPassword()
+    {
+        return view('theme.medibazaar.auth.forgot-password');
+    }
+
+    /**
+     * Handle an incoming password reset link request.
+     */
+    public function sendResetLinkEmail(Request $request)
+    {
+        $request->validate([
+            'email' => ['required', 'email'],
+        ]);
+
+        $status = Password::sendResetLink(
+            $request->only('email')
+        );
+
+        if ($status == Password::RESET_LINK_SENT) {
+            return response()->json([
+                'success' => true,
+                'message' => __($status)
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => __($status),
+            'errors' => ['email' => [__($status)]]
+        ], 422);
+    }
+
+    /**
+     * Display the password reset view.
+     */
+    public function resetPasswordForm(Request $request, string $token)
+    {
+        return view('theme.medibazaar.auth.reset-password', [
+            'token' => $token,
+            'email' => $request->email
+        ]);
+    }
+
+    /**
+     * Handle an incoming new password request.
+     */
+    public function resetPassword(Request $request)
+    {
+        $request->validate([
+            'token' => ['required'],
+            'email' => ['required', 'email'],
+            'password' => ['required', 'confirmed', 'min:8'],
+        ]);
+
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user) use ($request) {
+                $user->forceFill([
+                    'password' => Hash::make($request->password),
+                    'remember_token' => Str::random(60),
+                ])->save();
+
+                event(new PasswordReset($user));
+            }
+        );
+
+        if ($status == Password::PASSWORD_RESET) {
+            return redirect()->route('login')->with('status', __($status));
+        }
+
+        return back()->withInput($request->only('email'))
+            ->withErrors(['email' => __($status)]);
     }
 
 

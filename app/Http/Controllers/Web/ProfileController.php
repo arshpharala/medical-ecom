@@ -18,7 +18,11 @@ class ProfileController extends Controller
     public function profile()
     {
         $user = auth()->user();
-        return view('theme.xtremez.customers.profile');
+        $user->load(['orders' => function($query) {
+            $query->latest();
+        }, 'orders.lineItems.productVariant.product', 'orders.currency']);
+
+        return view('theme.medibazaar.customers.profile', compact('user'));
     }
 
     public function loadTab(string $tab)
@@ -28,7 +32,9 @@ class ProfileController extends Controller
 
         switch ($tab) {
             case 'order':
-                $user = $user->load('orders.lineItems');
+                $user = $user->load(['orders' => function($query) {
+                    $query->latest();
+                }, 'orders.lineItems.productVariant.product', 'orders.currency']);
                 break;
             case 'address':
                 $user = $user->load('addresses');
@@ -46,7 +52,7 @@ class ProfileController extends Controller
 
         $data['user'] = $user;
 
-        $view = "theme.xtremez.components.profile.$tab";
+        $view = "theme.medibazaar.components.profile.$tab";
         if (!View::exists($view)) {
 
             $response['view'] = '<div class="p-3 text-danger">Invalid tab</div>';
