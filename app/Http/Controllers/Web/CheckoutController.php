@@ -46,6 +46,29 @@ class CheckoutController extends Controller
         $data['provinces']      = Province::where('country_id', 1)->get();
         $data['gateways']       = PaymentGateway::active()->get();
 
+        // Get Stripe publishable key for frontend
+        $stripeGateway = PaymentGateway::where('gateway', 'stripe')->where('is_active', true)->first();
+        $data['stripeKey']      = $stripeGateway ? $stripeGateway->key : null;
+
+        // Get cart data
+        $cart = $this->cart->get();
+        $data['cart'] = $cart;
+
+        // Get cart items with product details
+        $items = $this->cart->getItems();
+        $variantIds = array_keys($items);
+
+        $variants = \App\Models\Catalog\ProductVariant::withJoins()
+            ->withSelection()
+            ->whereIn('product_variants.id', $variantIds)
+            ->get()
+            ->map(function ($variant) use ($items) {
+                $variant->qty = $items[$variant->id]['qty'] ?? 1;
+                return $variant;
+            });
+
+        $data['variants'] = $variants;
+
         if (Auth::check()) {
             $user                   = $request->user();
             $data['user']           = $user;
@@ -53,7 +76,7 @@ class CheckoutController extends Controller
             $data['cards']          = $user->cards()->latest()->get();
         }
 
-        return view('theme.xtremez.checkout', $data);
+        return view('theme.medibazaar.checkout', $data);
     }
 
     public function processOrder(StoreOrderRequest $request)
@@ -168,7 +191,7 @@ class CheckoutController extends Controller
         if ($request->filled('saved_card_id')) {
 
             $card       = $user->cards()->findOrFail($request->saved_card_id);
-            $intent     = $stripe->chargeSavedCard($user, $card->card_token, $total, ['order_id' => $order->id]);
+            $intent     = $stripe->chargeSavedCard($user, $card->card_token, $order->total, ['order_id' => $order->id]);
 
             if (isset($intent['requires_action']) && $intent['requires_action']) {
 
@@ -239,7 +262,7 @@ class CheckoutController extends Controller
         if ($this->cart->hasCoupon()) {
             CouponUsage::create([
                 'coupon_id' => $this->cart->getCoupon()['id'],
-                'user_id'   => $user->id,
+                'user_id'   => $order->user_id,
                 'order_id'  => $order->id
             ]);
         }
@@ -324,6 +347,6 @@ class CheckoutController extends Controller
 
         $this->cart->clear();
 
-        return view('theme.xtremez.order-confirmation', $data);
+        return view('theme.medibazaar.order-confirmation', $data);
     }
 }

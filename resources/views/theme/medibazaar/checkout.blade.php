@@ -51,13 +51,12 @@
                                     <option value="">-- Enter new address --</option>
                                     @foreach($addresses as $address)
                                     <option value="{{ $address->id }}"
-                                        data-name="{{ $address->first_name }} {{ $address->last_name }}"
+                                        data-name="{{ $address->name }}"
                                         data-phone="{{ $address->phone }}"
-                                        data-address="{{ $address->address_line_1 }}"
-                                        data-city="{{ $address->city }}"
-                                        data-province="{{ $address->province_id }}"
-                                        data-postal="{{ $address->postal_code }}">
-                                        {{ $address->first_name }} {{ $address->last_name }} - {{ $address->address_line_1 }}, {{ $address->city }}
+                                        data-address="{{ $address->address }}"
+                                        data-city="{{ $address->city_id }}"
+                                        data-province="{{ $address->province_id }}">
+                                        {{ $address->name }} - {{ $address->address }}@if($address->city), {{ $address->city->name ?? '' }}@endif
                                     </option>
                                     @endforeach
                                 </select>
@@ -68,22 +67,12 @@
 
                         <div id="address-form">
                             <div class="row">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="checkout-form-list mb-3">
-                                        <label>First Name <span class="required">*</span></label>
-                                        <input type="text" name="first_name" value="{{ old('first_name', $user->first_name ?? '') }}"
-                                               class="form-control @error('first_name') is-invalid @enderror" required>
-                                        @error('first_name')
-                                            <div class="invalid-feedback">{{ $message }}</div>
-                                        @enderror
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="checkout-form-list mb-3">
-                                        <label>Last Name <span class="required">*</span></label>
-                                        <input type="text" name="last_name" value="{{ old('last_name', $user->last_name ?? '') }}"
-                                               class="form-control @error('last_name') is-invalid @enderror" required>
-                                        @error('last_name')
+                                        <label>Full Name <span class="required">*</span></label>
+                                        <input type="text" name="name" value="{{ old('name', isset($user) ? $user->name : '') }}"
+                                               class="form-control @error('name') is-invalid @enderror" required>
+                                        @error('name')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -122,10 +111,10 @@
                                 <div class="col-md-12">
                                     <div class="checkout-form-list mb-3">
                                         <label>Address <span class="required">*</span></label>
-                                        <input type="text" name="address_line_1" value="{{ old('address_line_1') }}"
-                                               class="form-control @error('address_line_1') is-invalid @enderror"
+                                        <input type="text" name="address" value="{{ old('address') }}"
+                                               class="form-control @error('address') is-invalid @enderror"
                                                placeholder="Street address" required>
-                                        @error('address_line_1')
+                                        @error('address')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -165,10 +154,22 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="checkout-form-list mb-3">
-                                        <label>Postal Code <span class="required">*</span></label>
-                                        <input type="text" name="postal_code" value="{{ old('postal_code') }}"
-                                               class="form-control @error('postal_code') is-invalid @enderror" required>
-                                        @error('postal_code')
+                                        <label>Area</label>
+                                        <select name="area_id" id="area" class="form-select @error('area_id') is-invalid @enderror">
+                                            <option value="">Select Area (optional)</option>
+                                        </select>
+                                        @error('area_id')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="checkout-form-list mb-3">
+                                        <label>Landmark</label>
+                                        <input type="text" name="landmark" value="{{ old('landmark') }}"
+                                               class="form-control @error('landmark') is-invalid @enderror"
+                                               placeholder="Near...">
+                                        @error('landmark')
                                             <div class="invalid-feedback">{{ $message }}</div>
                                         @enderror
                                     </div>
@@ -200,24 +201,31 @@
                                     </tr>
                                 </thead>
                                 <tbody id="order-items">
-                                    <!-- Items will be loaded via AJAX or can be passed from controller -->
+                                    @foreach($variants as $variant)
+                                    <tr>
+                                        <td>{{ $variant->name }} × {{ $variant->qty }}</td>
+                                        <td>{{ price_format(active_currency(), $variant->price * $variant->qty) }}</td>
+                                    </tr>
+                                    @endforeach
                                 </tbody>
                                 <tfoot>
                                     <tr class="cart-subtotal">
                                         <th>Subtotal</th>
-                                        <td id="order-subtotal">Loading...</td>
+                                        <td>{{ $cart['subTotal_with_currency'] }}</td>
                                     </tr>
-                                    <tr class="cart-subtotal" id="discount-row" style="display: none;">
+                                    @if($cart['discount'] > 0)
+                                    <tr class="cart-subtotal">
                                         <th>Discount</th>
-                                        <td id="order-discount" class="text-success"></td>
+                                        <td class="text-success">-{{ $cart['discount_with_currency'] }}</td>
                                     </tr>
+                                    @endif
                                     <tr class="cart-subtotal">
                                         <th>Tax</th>
-                                        <td id="order-tax">Loading...</td>
+                                        <td>{{ $cart['tax_with_currency'] }}</td>
                                     </tr>
                                     <tr class="order-total">
                                         <th>Order Total</th>
-                                        <td id="order-total"><strong>Loading...</strong></td>
+                                        <td><strong>{{ $cart['total_with_currency'] }}</strong></td>
                                     </tr>
                                 </tfoot>
                             </table>
@@ -229,34 +237,33 @@
                             @foreach($gateways as $gateway)
                             <div class="form-check mb-3">
                                 <input class="form-check-input" type="radio" name="payment_method"
-                                       id="payment-{{ $gateway->slug }}" value="{{ $gateway->slug }}"
+                                       id="payment-{{ $gateway->gateway }}" value="{{ $gateway->gateway }}"
                                        {{ $loop->first ? 'checked' : '' }}>
-                                <label class="form-check-label" for="payment-{{ $gateway->slug }}">
-                                    @if($gateway->icon)
-                                        <img src="{{ asset('storage/' . $gateway->icon) }}" alt="{{ $gateway->name }}" height="24">
-                                    @endif
-                                    {{ $gateway->name }}
+                                <label class="form-check-label" for="payment-{{ $gateway->gateway }}">
+                                    <i class="bi bi-credit-card me-2"></i>
+                                    {{ ucfirst($gateway->gateway) }}
                                 </label>
-                                @if($gateway->description)
-                                    <small class="d-block text-muted">{{ $gateway->description }}</small>
-                                @endif
                             </div>
                             @endforeach
                         </div>
 
                         <!-- Stripe Card Element -->
                         <div id="stripe-card-element" class="mt-4" style="display: none;">
-                            <div id="card-element" class="form-control p-3">
+                            <label class="form-label mb-2"><strong>Card Details</strong></label>
+                            <div id="card-element" class="form-control p-3" style="min-height: 50px;">
                                 <!-- Stripe Elements will be mounted here -->
                             </div>
                             <div id="card-errors" class="text-danger mt-2" role="alert"></div>
+                            <small class="text-muted mt-2 d-block">
+                                <i class="bi bi-shield-lock"></i> Your payment is secured with SSL encryption
+                            </small>
                         </div>
 
                         <!-- PayPal Button Container -->
                         <div id="paypal-button-container" class="mt-4" style="display: none;"></div>
 
                         <div class="order-button-payment mt-4">
-                            <button type="submit" id="place-order-btn" class="c-btn theme-btn w-100">
+                            <button type="button" id="place-order-btn" class="c-btn theme-btn w-100">
                                 Place Order
                             </button>
                         </div>
@@ -274,25 +281,185 @@
 
 @push('scripts')
 <script src="https://js.stripe.com/v3/"></script>
+@if(config('services.paypal.client_id'))
 <script src="https://www.paypal.com/sdk/js?client-id={{ config('services.paypal.client_id') }}&currency=USD"></script>
+@endif
 
 <script>
 $(document).ready(function() {
     const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+    const stripePublishableKey = @json($stripeKey ?? null);
 
-    // Load cart items
-    loadCartItems();
+    // Declare Stripe variables at the top
+    let stripe = null;
+    let cardElement = null;
+    let paypalInitialized = false;
+
+    // Stripe initialization function
+    function initStripe() {
+        if (stripe) {
+            console.log('Stripe already initialized');
+            return;
+        }
+
+        console.log('Initializing Stripe with key:', stripePublishableKey ? 'present' : 'missing');
+
+        if (!stripePublishableKey) {
+            console.error('Stripe publishable key not configured');
+            $('#card-errors').text('Stripe is not configured. Please contact support.');
+            return;
+        }
+
+        try {
+            stripe = Stripe(stripePublishableKey);
+            const elements = stripe.elements();
+            cardElement = elements.create('card', {
+                style: {
+                    base: {
+                        fontSize: '16px',
+                        color: '#32325d',
+                        fontFamily: 'Arial, sans-serif',
+                        '::placeholder': {
+                            color: '#aab7c4'
+                        }
+                    },
+                    invalid: {
+                        color: '#fa755a',
+                        iconColor: '#fa755a'
+                    }
+                }
+            });
+            cardElement.mount('#card-element');
+            console.log('Stripe card element mounted successfully');
+
+            cardElement.on('change', function(event) {
+                const displayError = document.getElementById('card-errors');
+                if (event.error) {
+                    displayError.textContent = event.error.message;
+                } else {
+                    displayError.textContent = '';
+                }
+            });
+        } catch(err) {
+            console.error('Stripe initialization error:', err);
+            $('#card-errors').text('Failed to initialize payment. Please refresh the page.');
+        }
+    }
+
+    // PayPal initialization function
+    function initPayPal() {
+        if (paypalInitialized || typeof paypal === 'undefined') return;
+        paypalInitialized = true;
+
+        paypal.Buttons({
+            createOrder: function(data, actions) {
+                if (!validateForm()) {
+                    return Promise.reject('Please fill in all required fields');
+                }
+                return fetch('/checkout/paypal/create', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: JSON.stringify(getFormData())
+                }).then(res => res.json()).then(data => data.id);
+            },
+            onApprove: function(data, actions) {
+                $('#paypal_order_id').val(data.orderID);
+                return fetch('/checkout/paypal/capture/' + data.orderID, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': csrfToken
+                    },
+                    body: JSON.stringify(getFormData())
+                }).then(res => res.json()).then(data => {
+                    if (data.redirect) {
+                        window.location.href = data.redirect;
+                    } else {
+                        alert(data.message || 'Payment failed');
+                    }
+                });
+            },
+            onError: function(err) {
+                console.error('PayPal error:', err);
+                alert('An error occurred with PayPal. Please try again.');
+            }
+        }).render('#paypal-button-container');
+    }
+
+    // Validation function
+    function validateForm() {
+        const required = ['name', 'phone', 'address', 'province_id', 'city_id'];
+        @guest
+        required.push('email');
+        @endguest
+
+        let isValid = true;
+        required.forEach(field => {
+            const input = $(`[name="${field}"]`);
+            if (!input.val()) {
+                input.addClass('is-invalid');
+                isValid = false;
+            } else {
+                input.removeClass('is-invalid');
+            }
+        });
+
+        if (!isValid) {
+            alert('Please fill in all required fields');
+        }
+        return isValid;
+    }
+
+    // Get form data helper
+    function getFormData() {
+        return {
+            name: $('[name="name"]').val(),
+            email: $('[name="email"]').val(),
+            phone: $('[name="phone"]').val(),
+            address: $('[name="address"]').val(),
+            province_id: $('[name="province_id"]').val(),
+            city_id: $('[name="city_id"]').val(),
+            area_id: $('[name="area_id"]').val(),
+            landmark: $('[name="landmark"]').val(),
+            notes: $('[name="notes"]').val(),
+            payment_method: $('[name="payment_method"]:checked').val()
+        };
+    }
 
     // Province -> City dependency
     $('#province').on('change', function() {
         const provinceId = $(this).val();
+        $('#city').html('<option value="">Select City</option>');
+        $('#area').html('<option value="">Select Area (optional)</option>');
         if (provinceId) {
-            $.get(`/api/provinces/${provinceId}/cities`, function(cities) {
+            $.get(`{{ url('/ajax/cities') }}/${provinceId}`, function(response) {
                 let options = '<option value="">Select City</option>';
-                cities.forEach(city => {
-                    options += `<option value="${city.id}">${city.name}</option>`;
-                });
+                if (Array.isArray(response)) {
+                    response.forEach(city => {
+                        options += `<option value="${city.id}">${city.name}</option>`;
+                    });
+                }
                 $('#city').html(options);
+            });
+        }
+    });
+
+    // City -> Area dependency
+    $('#city').on('change', function() {
+        const cityId = $(this).val();
+        $('#area').html('<option value="">Select Area (optional)</option>');
+        if (cityId) {
+            $.get(`{{ url('/ajax/areas') }}/${cityId}`, function(response) {
+                let options = '<option value="">Select Area (optional)</option>';
+                if (Array.isArray(response)) {
+                    response.forEach(area => {
+                        options += `<option value="${area.id}">${area.name}</option>`;
+                    });
+                }
+                $('#area').html(options);
             });
         }
     });
@@ -301,16 +468,10 @@ $(document).ready(function() {
     $('#saved-address').on('change', function() {
         const option = $(this).find(':selected');
         if (option.val()) {
-            // Populate form with saved address data
-            const name = option.data('name');
-            const [firstName, ...lastNameParts] = name.split(' ');
-            $('input[name="first_name"]').val(firstName);
-            $('input[name="last_name"]').val(lastNameParts.join(' '));
+            $('input[name="name"]').val(option.data('name'));
             $('input[name="phone"]').val(option.data('phone'));
-            $('input[name="address_line_1"]').val(option.data('address'));
-            $('input[name="postal_code"]').val(option.data('postal'));
+            $('input[name="address"]').val(option.data('address'));
             $('#province').val(option.data('province')).trigger('change');
-
             setTimeout(() => {
                 $('#city').val(option.data('city'));
             }, 500);
@@ -334,207 +495,124 @@ $(document).ready(function() {
         }
     });
 
-    // Trigger initial payment method
-    $('input[name="payment_method"]:checked').trigger('change');
-
-    function loadCartItems() {
-        $.get('/cart', function(response) {
-            // Cart data should be loaded - using session data
-        }).fail(function() {
-            // Fallback - reload page or show error
-        });
-
-        // For now, let's make an AJAX call to get cart data
-        $.ajax({
-            url: '/api/cart',
-            method: 'GET',
-            success: function(cart) {
-                updateOrderSummary(cart);
-            },
-            error: function() {
-                // Cart data passed from controller can be used
-                console.log('Using server-side cart data');
-            }
-        });
-    }
-
-    function updateOrderSummary(cart) {
-        const currency = cart.currency || 'USD';
-        let itemsHtml = '';
-
-        if (cart.items) {
-            Object.values(cart.items).forEach(item => {
-                itemsHtml += `
-                    <tr>
-                        <td>${item.name || 'Product'} × ${item.qty}</td>
-                        <td>${currency} ${(item.price * item.qty).toFixed(2)}</td>
-                    </tr>
-                `;
-            });
-        }
-
-        $('#order-items').html(itemsHtml);
-        $('#order-subtotal').text(`${currency} ${parseFloat(cart.subtotal || 0).toFixed(2)}`);
-        $('#order-tax').text(`${currency} ${parseFloat(cart.tax || 0).toFixed(2)}`);
-        $('#order-total').html(`<strong>${currency} ${parseFloat(cart.total || 0).toFixed(2)}</strong>`);
-
-        if (cart.coupon && cart.coupon.discount > 0) {
-            $('#discount-row').show();
-            $('#order-discount').text(`-${currency} ${parseFloat(cart.coupon.discount).toFixed(2)}`);
-        }
-    }
-
-    // Stripe initialization
-    let stripe, cardElement;
-    function initStripe() {
-        if (stripe) return;
-
-        stripe = Stripe('{{ config('services.stripe.key') }}');
-        const elements = stripe.elements();
-        cardElement = elements.create('card', {
-            style: {
-                base: {
-                    fontSize: '16px',
-                    color: '#32325d',
-                }
-            }
-        });
-        cardElement.mount('#card-element');
-
-        cardElement.on('change', function(event) {
-            const displayError = document.getElementById('card-errors');
-            if (event.error) {
-                displayError.textContent = event.error.message;
-            } else {
-                displayError.textContent = '';
-            }
-        });
-    }
-
-    // PayPal initialization
-    let paypalInitialized = false;
-    function initPayPal() {
-        if (paypalInitialized) return;
-        paypalInitialized = true;
-
-        paypal.Buttons({
-            createOrder: function(data, actions) {
-                // Get form data and validate
-                if (!validateForm()) {
-                    return Promise.reject('Please fill in all required fields');
-                }
-
-                return fetch('/checkout/paypal/create', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': csrfToken
-                    },
-                    body: JSON.stringify(getFormData())
-                }).then(res => res.json()).then(data => {
-                    return data.id;
-                });
-            },
-            onApprove: function(data, actions) {
-                $('#paypal_order_id').val(data.orderID);
-                return fetch('/checkout/paypal/capture/' + data.orderID, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'X-CSRF-TOKEN': csrfToken
-                    },
-                    body: JSON.stringify(getFormData())
-                }).then(res => res.json()).then(data => {
-                    if (data.success) {
-                        window.location.href = data.redirect;
-                    } else {
-                        alert(data.message || 'Payment failed');
-                    }
-                });
-            },
-            onError: function(err) {
-                console.error('PayPal error:', err);
-                alert('An error occurred with PayPal. Please try again.');
-            }
-        }).render('#paypal-button-container');
-    }
-
-    // Form submission for Stripe
-    $('#checkout-form').on('submit', async function(e) {
+    // Place Order button click handler
+    $('#place-order-btn').on('click', async function(e) {
         e.preventDefault();
+        console.log('Place Order clicked');
 
         if (!validateForm()) {
             return false;
         }
 
         const paymentMethod = $('input[name="payment_method"]:checked').val();
+        const form = $('#checkout-form');
+        console.log('Payment method:', paymentMethod);
 
         if (paymentMethod === 'stripe') {
-            $('#place-order-btn').prop('disabled', true).text('Processing...');
-
-            const {error, paymentMethod: pm} = await stripe.createPaymentMethod({
-                type: 'card',
-                card: cardElement,
-            });
-
-            if (error) {
-                $('#card-errors').text(error.message);
-                $('#place-order-btn').prop('disabled', false).text('Place Order');
+            if (!stripe || !cardElement) {
+                console.error('Stripe not initialized');
+                alert('Payment system is loading. Please wait a moment and try again.');
+                initStripe(); // Try to initialize again
                 return;
             }
 
-            // Add payment method ID to form
-            $('<input>').attr({
-                type: 'hidden',
-                name: 'payment_method_id',
-                value: pm.id
-            }).appendTo('#checkout-form');
+            $('#place-order-btn').prop('disabled', true).text('Processing...');
+            $('#card-errors').text('');
+
+            try {
+                console.log('Creating payment method...');
+                const {error, paymentMethod: pm} = await stripe.createPaymentMethod({
+                    type: 'card',
+                    card: cardElement,
+                });
+
+                if (error) {
+                    console.error('Stripe error:', error);
+                    $('#card-errors').text(error.message);
+                    $('#place-order-btn').prop('disabled', false).text('Place Order');
+                    return;
+                }
+
+                console.log('Payment method created:', pm.id);
+
+                // Submit order to server via AJAX
+                const formData = new FormData(form[0]);
+                formData.append('payment_method_id', pm.id);
+
+                const response = await fetch(form.attr('action'), {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json',
+                    },
+                    body: formData
+                });
+
+                const result = await response.json();
+                console.log('Server response:', result);
+
+                if (!response.ok) {
+                    throw new Error(result.message || 'An error occurred');
+                }
+
+                // Handle Stripe confirmation if clientSecret is returned
+                if (result.clientSecret) {
+                    console.log('Confirming card payment...');
+                    const { error: confirmError, paymentIntent } = await stripe.confirmCardPayment(result.clientSecret, {
+                        payment_method: pm.id
+                    });
+
+                    if (confirmError) {
+                        console.error('Confirm error:', confirmError);
+                        $('#card-errors').text(confirmError.message);
+                        $('#place-order-btn').prop('disabled', false).text('Place Order');
+                        return;
+                    }
+
+                    console.log('Payment confirmed, sending to server...');
+                    // Payment succeeded, confirm with server
+                    const confirmResponse = await fetch('{{ route("stripe.confirm-payment") }}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRF-TOKEN': csrfToken,
+                            'Accept': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            order_id: result.order_id,
+                            payment_intent_id: paymentIntent.id
+                        })
+                    });
+
+                    const confirmResult = await confirmResponse.json();
+                    console.log('Confirm result:', confirmResult);
+
+                    if (confirmResult.redirect) {
+                        window.location.href = confirmResult.redirect;
+                    } else {
+                        throw new Error('Payment confirmed but redirect URL missing');
+                    }
+                } else if (result.redirect) {
+                    window.location.href = result.redirect;
+                } else {
+                    throw new Error('Unexpected response from server');
+                }
+
+            } catch (err) {
+                console.error('Checkout error:', err);
+                $('#card-errors').text(err.message || 'An error occurred during checkout');
+                $('#place-order-btn').prop('disabled', false).text('Place Order');
+            }
         } else if (paymentMethod === 'cod') {
             $('#place-order-btn').prop('disabled', true).text('Processing...');
+            $('#checkout-form')[0].submit();
         }
-
-        // Submit form
-        this.submit();
     });
 
-    function validateForm() {
-        const required = ['first_name', 'last_name', 'phone', 'address_line_1', 'province_id', 'city_id', 'postal_code'];
-        @guest
-        required.push('email');
-        @endguest
-
-        let isValid = true;
-        required.forEach(field => {
-            const input = $(`[name="${field}"]`);
-            if (!input.val()) {
-                input.addClass('is-invalid');
-                isValid = false;
-            } else {
-                input.removeClass('is-invalid');
-            }
-        });
-
-        if (!isValid) {
-            alert('Please fill in all required fields');
-        }
-
-        return isValid;
-    }
-
-    function getFormData() {
-        return {
-            first_name: $('[name="first_name"]').val(),
-            last_name: $('[name="last_name"]').val(),
-            email: $('[name="email"]').val(),
-            phone: $('[name="phone"]').val(),
-            address_line_1: $('[name="address_line_1"]').val(),
-            province_id: $('[name="province_id"]').val(),
-            city_id: $('[name="city_id"]').val(),
-            postal_code: $('[name="postal_code"]').val(),
-            notes: $('[name="notes"]').val(),
-            payment_method: $('[name="payment_method"]:checked').val()
-        };
-    }
+    // Trigger initial payment method after everything is set up
+    setTimeout(function() {
+        $('input[name="payment_method"]:checked').trigger('change');
+    }, 100);
 });
 </script>
 @endpush
@@ -580,11 +658,73 @@ $(document).ready(function() {
 #card-element {
     border: 1px solid #ddd;
     border-radius: 4px;
+    background: #fff;
+    min-height: 44px;
 }
 
 .order-button-payment .c-btn {
     font-size: 18px;
     padding: 15px 30px;
+}
+
+/* Fix select styling */
+.checkout-form-list select,
+.form-select {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    font-size: 14px;
+    color: #333;
+    appearance: auto;
+    -webkit-appearance: auto;
+    -moz-appearance: auto;
+    cursor: pointer;
+}
+
+.checkout-form-list select:focus,
+.form-select:focus {
+    border-color: #00a8ff;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 168, 255, 0.1);
+}
+
+.checkout-form-list input,
+.checkout-form-list textarea {
+    width: 100%;
+    padding: 10px 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.checkout-form-list input:focus,
+.checkout-form-list textarea:focus {
+    border-color: #00a8ff;
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(0, 168, 255, 0.1);
+}
+
+/* Payment method styling */
+.payment-method .form-check {
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background: #fff;
+}
+
+.payment-method .form-check:hover {
+    border-color: #00a8ff;
+}
+
+.payment-method .form-check-input:checked + .form-check-label {
+    color: #00a8ff;
+}
+
+.form-check-label {
+    cursor: pointer;
+    font-weight: 500;
 }
 </style>
 @endpush

@@ -33,7 +33,7 @@ class StoreOrderRequest extends FormRequest
             'phone'             => 'required_without:saved_address_id|string|max:20',
             'province_id'       => 'required_without:saved_address_id|nullable|exists:provinces,id',
             'city_id'           => 'required_without:saved_address_id|nullable|exists:cities,id',
-            'area_id'           => 'required_without:saved_address_id|nullable|exists:areas,id',
+            'area_id'           => 'nullable|exists:areas,id',
             'address'           => 'required_without:saved_address_id|string|max:1000',
             'landmark'          => 'nullable|string|max:500',
             'email'             => Auth::check() ? 'nullable|email' : 'required|email',

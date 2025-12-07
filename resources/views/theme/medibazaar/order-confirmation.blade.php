@@ -71,13 +71,12 @@
                                 <h4><i class="bi bi-truck"></i> Shipping Address</h4>
                                 @if($order->address)
                                 <address>
-                                    <strong>{{ $order->address->first_name }} {{ $order->address->last_name }}</strong><br>
-                                    {{ $order->address->address_line_1 }}<br>
-                                    @if($order->address->address_line_2)
-                                        {{ $order->address->address_line_2 }}<br>
+                                    <strong>{{ $order->address->name }}</strong><br>
+                                    {{ $order->address->address }}<br>
+                                    @if($order->address->landmark)
+                                        {{ $order->address->landmark }}<br>
                                     @endif
-                                    {{ $order->address->city }}, {{ $order->address->province->name ?? '' }}<br>
-                                    {{ $order->address->postal_code }}<br>
+                                    {{ $order->address->city->name ?? '' }}, {{ $order->address->province->name ?? '' }}<br>
                                     Phone: {{ $order->address->phone }}
                                 </address>
                                 @endif
@@ -158,7 +157,7 @@
                         <i class="bi bi-person"></i> View My Orders
                     </a>
                     @endauth
-                    <a href="{{ route('products.index') }}" class="c-btn theme-btn-2">
+                    <a href="{{ route('products') }}" class="c-btn theme-btn-2">
                         <i class="bi bi-arrow-left"></i> Continue Shopping
                     </a>
                 </div>
