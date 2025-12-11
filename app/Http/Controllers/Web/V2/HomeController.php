@@ -32,7 +32,7 @@ class HomeController extends Controller
                 return (new ProductRepository())->transform($variant);
             });
 
-        $categories = Category::has('products')->withJoins()->withSelection()->visible()
+        $categories = Category::with('parent.translation')->withJoins()->withSelection()->visible()
             ->where('show_on_homepage', true)
             ->orderBy('position', 'asc')
             ->get();
