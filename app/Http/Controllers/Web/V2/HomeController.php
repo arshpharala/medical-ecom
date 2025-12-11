@@ -8,6 +8,7 @@ use App\Models\Catalog\Brand;
 use App\Models\Catalog\Offer;
 use App\Models\CMS\Testimonial;
 use App\Http\Controllers\Controller;
+use App\Models\Catalog\Category;
 use App\Repositories\PageRepository;
 use App\Models\Catalog\ProductVariant;
 use App\Repositories\ProductRepository;
@@ -30,6 +31,11 @@ class HomeController extends Controller
             ->get()->map(function ($variant) {
                 return (new ProductRepository())->transform($variant);
             });
+
+        $categories = Category::has('products')->withJoins()->withSelection()->visible()
+            ->where('show_on_homepage', true)
+            ->orderBy('position', 'asc')
+            ->get();
 
 
         $bestSellerProducts = ProductVariant::withJoins()
@@ -62,14 +68,14 @@ class HomeController extends Controller
         $deal = Offer::active()->first();
 
         if ($deal)
-        $dealProducts = ProductVariant::withJoins()
-            ->applySorting('position')
-            ->withSelection()
-            ->withFilters(['offer' => true, 'offer_id' => $deal->id])
-            ->limit(3)
-            ->get()->map(function ($variant) {
-                return (new ProductRepository())->transform($variant);
-            });
+            $dealProducts = ProductVariant::withJoins()
+                ->applySorting('position')
+                ->withSelection()
+                ->withFilters(['offer' => true, 'offer_id' => $deal->id])
+                ->limit(3)
+                ->get()->map(function ($variant) {
+                    return (new ProductRepository())->transform($variant);
+                });
 
 
         $featuredProducts = ProductVariant::withJoins()
@@ -97,6 +103,7 @@ class HomeController extends Controller
             ->get();
 
         $data['banners']            = $banners;
+        $data['categories']            = $categories;
         $data['bannerProducts']     = $bannerProducts;
         $data['bestSellerProducts'] = $bestSellerProducts;
         $data['topRatedProducts']   = $topRatedProducts;
@@ -113,7 +120,8 @@ class HomeController extends Controller
         $data['locale']     = $locale;
         $data['brands']     = $brands;
 
-        return view('theme.medibazaar.home', $data);
+        return view('theme.medibazaar.index', $data);
+        // return view('theme.medibazaar.home', $data);
     }
 
     function contact()

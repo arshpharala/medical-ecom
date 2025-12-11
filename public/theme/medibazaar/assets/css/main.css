@@ -8826,7 +8826,7 @@ a.text-dark:hover, a.text-dark:focus {
 /*----------------------------------------*/
 /* 1. Theme default css */
 body {
-  font-family: "Cerebri Sans Pro";
+  font-family: '"Lato", sans-serif';
   font-weight: normal;
   font-style: normal;
   color: #9b9b9b;
@@ -8899,7 +8899,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Cerebri Sans Pro";
+  font-family: '"Lato", sans-serif';
   color: #333333;
   margin-top: 0px;
   font-style: normal;
