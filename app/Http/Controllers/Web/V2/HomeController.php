@@ -120,7 +120,7 @@ class HomeController extends Controller
         $data['locale']     = $locale;
         $data['brands']     = $brands;
 
-        return view('theme.medibazaar.index', $data);
+        return view('theme.oms.home', $data);
         // return view('theme.medibazaar.home', $data);
     }
 

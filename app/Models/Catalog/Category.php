@@ -86,6 +86,7 @@ class Category extends Model
             'categories.slug',
             'categories.icon',
             'categories.image',
+            'categories.parent_id',
             'categories.show_on_homepage',
             'categories.is_visible',
             'categories.banner_image',
