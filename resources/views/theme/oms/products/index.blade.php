@@ -1,4 +1,4 @@
-@extends('theme.medibazaar.layouts.app')
+@extends('theme.oms.layouts.app')
 @section('content')
   <style>
     .category-item ul li a.active {
@@ -154,7 +154,6 @@
                   <span class="category-name">{{ $category->name }}</span>
                 </li>
                 @if ($category->children->isNotEmpty())
-                  <!-- Children -->
                   <ul class="sub-category-group list-unstyled">
                     @foreach ($category->children as $child)
                       <li
@@ -164,9 +163,9 @@
                         <span class="category-name">{{ $child->translation->name }}</span>
                       </li>
                     @endforeach
-
                   </ul>
                 @endif
+
                 <ul class="sub-category-group list-unstyled"></ul>
               @endforeach
 
@@ -194,9 +193,11 @@
             </ul>
           </div>
 
+          <div id="dynamic-attribute-filters" class="category-sidebar cat-side mb-30 dynamic-attribute-filters">
 
+          </div>
 
-          <div class="category-sidebar cat-side mb-30">
+          {{-- <div class="category-sidebar cat-side mb-30">
             <h3 class="cat-title">Filter By Color</h3>
             <div class="cat-widget">
               <div class="cat-widget-color">
@@ -211,7 +212,7 @@
                 <span class="c-9"></span>
               </div>
             </div>
-          </div>
+          </div> --}}
         </div>
         <div class="col-xl-9 col-lg-9">
           <div class="pro-ful-tab">
@@ -264,7 +265,7 @@
             </div>
 
             <div class="basic-pagination mt-20 basic-pagination-2 text-center">
-              <ul>
+              <ul class="pagination">
                 <li><a href="#"><i class="far fa-angle-left"></i></a></li>
                 <li class="active"><a href="#">1</a></li>
                 <li><a href="#">2</a></li>
@@ -283,25 +284,6 @@
 @endsection
 @push('scripts')
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
-
-      document.querySelectorAll(".parent-category").forEach(parent => {
-        const subGroup = parent.nextElementSibling;
-
-        // Auto-open if child is active
-        if (subGroup && subGroup.querySelector(".child-category.active")) {
-          parent.classList.add("is-open", "has-active-child");
-        }
-
-        parent.addEventListener("click", () => {
-          parent.classList.toggle("is-open");
-        });
-      });
-
-    });
-  </script>
-  <script></script>
-  <script>
     // Laravel route passed to JS
     window.ajaxProductURL = "{{ route('ajax.get-products') }}";
     window.activeCategoryId = "{{ $activeCategory->id ?? '' }}";
@@ -310,5 +292,5 @@
   <script></script>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.js"></script>
-  <script src="{{ asset('theme/medibazaar/assets/js/filters.js') }}"></script>
+  <script src="{{ asset('theme/oms/assets/js/filters.js') }}"></script>
 @endpush

@@ -9,9 +9,9 @@
   @include('theme.oms.components.category-banner', ['categories' => $categories])
 
   @include('theme.oms.components.products', [
-      'products' => $popularProducts,
-      'title' => 'Popular Products',
-      'tagline' => 'Explore our popular products',
+      'products' => $newProducts,
+      'title' => 'New Products',
+      'tagline' => 'Explore our new products',
   ])
 
 

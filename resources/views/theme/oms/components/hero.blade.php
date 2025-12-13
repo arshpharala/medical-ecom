@@ -42,7 +42,7 @@
                   </div>
                   <div class="col-xl-7 col-lg-6">
                     <div class="slider-img d-none d-lg-block" data-animation="fadeInRight" data-delay=".8s">
-                      <img src="{{ asset('storage/' . $banner->image) }}" alt="banner image">
+                      <img src="{{ asset('storage/' . $banner->image) }}" alt="banner image" style="height: 500px">
                     </div>
                   </div>
                 </div>

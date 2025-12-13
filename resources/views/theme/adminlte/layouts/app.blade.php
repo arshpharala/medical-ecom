@@ -115,7 +115,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <!-- Select2 -->
     <script src="{{ asset('theme/adminlte/plugins/select2/js/select2.full.min.js') }}"></script>
 
-    <script src="https://cdn.tiny.cloud/1/oi7mkco6t76s5wsylxqluvuwybvyizoz9q2jbj47bu9xbtlz/tinymce/7/tinymce.min.js"
+    <script src="https://cdn.tiny.cloud/1/{{ setting('tiny_mc_key', 'mji5kkawjuhy1iczxs5xywab9mboieo36whi89277pgzv937') }}/tinymce/7/tinymce.min.js"
         referrerpolicy="origin"></script>
     <script>
 

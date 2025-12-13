@@ -64,7 +64,7 @@ class ProductController extends Controller
         $data['brands']         = $brands;
         $data['tags']           = $tags;
 
-        return view('theme.medibazaar.products.index', $data);;
+        return view('theme.oms.products.index', $data);;
     }
 
     public function show($slug, $variantId, Request $request)
@@ -92,7 +92,7 @@ class ProductController extends Controller
         $data['attributes']         = $attributes;
         $data['selected']           = $selected;
 
-        return view('theme.medibazaar.products.show', $data);
+        return view('theme.oms.products.show', $data);
     }
 
     public function resolve(Request $request)
@@ -223,7 +223,6 @@ class ProductController extends Controller
     public function getProducts()
     {
         $products = $this->repository->getFiltered();
-
         if ($products instanceof \Illuminate\Pagination\LengthAwarePaginator) {
             return response()->json([
                 'success' => true,

@@ -119,12 +119,21 @@ class ProductVariant extends Model
 
     public function scopeWithFilters($query, $filters)
     {
+        $categoryId = null;
+        if ($filters['category'] ?? false) {
+            $categoryId = Category::where('slug', $filters['category'])->value('id');
+        }
+
         return $query
-            ->when($filters['is_new'] ?? null, fn($q, $v) => $q->where('product_variants.created_at', '>=', now()->subDays(30)))
+            ->when($filters['is_new'] ?? null, fn($q, $v) => $q->where('product_variants.created_at', '>=', now()->subDays(60)))
             ->when($filters['is_featured'] ?? null, fn($q, $v) => $q->where('products.is_featured', $v))
             ->when($filters['show_in_slider'] ?? null, fn($q, $v) => $q->where('products.show_in_slider', $v))
-            ->when($filters['category'] ?? null, fn($q, $v) => $q->where('categories.slug', $v))
-            ->when($filters['category_id'] ?? null, fn($q, $v) => $q->where('products.category_id', $v))
+            ->when($filters['category'] ?? null, function ($q, $v) use ($categoryId) {
+                $q->where(function ($subQ) use ($categoryId) {
+                    $subQ->where('categories.id', $categoryId)->orWhere('categories.parent_id', $categoryId);
+                });
+            })
+            ->when($filters['category_id'] ?? null, fn($q, $v) => $q->where('products.category_id', $v)->orWhere('categories.parent_id', $v))
             ->when($filters['brand_id'] ?? null, fn($q, $v) => $q->where('products.brand_id', $v))
             ->when($filters['price_min'] ?? null, fn($q, $v) => $q->where('product_variants.price', '>=', $v))
             ->when($filters['price_max'] ?? null, fn($q, $v) => $q->where('product_variants.price', '<=', $v))
@@ -134,13 +143,13 @@ class ProductVariant extends Model
                 $filters['offer'] ?? null,
                 fn($q) =>
                 $q->whereHas('offers', fn($q2) => $q2->active()
-                ->when($filters['offer_name'] ?? null || $filters['offer_id'] ?? null, function($q3) use($filters){
-                    $q3->whereIn('id', Arr::wrap($filters['offer_id'] ?? null))->orWhereIn('name', Arr::wrap($filters['offer_name'] ?? null));
-                }))
+                    ->when($filters['offer_name'] ?? null || $filters['offer_id'] ?? null, function ($q3) use ($filters) {
+                        $q3->whereIn('id', Arr::wrap($filters['offer_id'] ?? null))->orWhereIn('name', Arr::wrap($filters['offer_name'] ?? null));
+                    }))
             )
             ->when(
                 $filters['tags'] ?? null,
-                fn($q, $v) => $q->whereHas('tags', fn($q2) => $q2->whereIn('name', $v) )
+                fn($q, $v) => $q->whereHas('tags', fn($q2) => $q2->whereIn('name', $v))
             );
     }
 
@@ -167,12 +176,13 @@ class ProductVariant extends Model
         };
     }
 
+
     function getThumbnail()
     {
         $attachment = $this->attachments->first();
 
         if ($attachment) {
-            return asset('storage/'. $attachment->file_path);
+            return asset('storage/' . $attachment->file_path);
         }
         return asset('assets/images/no-image.jpg'); // Default image if no thumbnail is set
     }

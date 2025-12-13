@@ -244,11 +244,15 @@ if (!function_exists('menu_categories')) {
      */
     function menu_categories(int $limit = 6): Collection
     {
-        $categories = Category::visible()
+        return Category::visible()
             ->withJoins()
             ->withSelection()
+            ->whereNull('parent_id')
+            ->with(['children' => function ($q) {
+                $q->visible()->applySorting('position')->with('translation');
+            }])
             ->applySorting('position')
-            ->limit($limit)->get();
-        return $categories;
+            ->limit($limit)
+            ->get();
     }
 }

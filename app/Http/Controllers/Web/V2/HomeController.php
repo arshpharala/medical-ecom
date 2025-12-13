@@ -56,10 +56,10 @@ class HomeController extends Controller
                 return (new ProductRepository())->transform($variant);
             });
 
-        $popularProducts = ProductVariant::withJoins()
+        $newProducts = ProductVariant::withJoins()
             ->applySorting('position')
             ->withSelection()
-            ->withFilters(['tags' => ['Popular']])
+            ->withFilters(['is_new' => 1])
             ->limit(6)
             ->get()->map(function ($variant) {
                 return (new ProductRepository())->transform($variant);
@@ -107,7 +107,7 @@ class HomeController extends Controller
         $data['bannerProducts']     = $bannerProducts;
         $data['bestSellerProducts'] = $bestSellerProducts;
         $data['topRatedProducts']   = $topRatedProducts;
-        $data['popularProducts']    = $popularProducts;
+        $data['newProducts']    = $newProducts;
         $data['deal']               = $deal;
         $data['dealProducts']       = $dealProducts ?? collect();
         $data['featuredProducts']   = $featuredProducts;
@@ -121,7 +121,6 @@ class HomeController extends Controller
         $data['brands']     = $brands;
 
         return view('theme.oms.home', $data);
-        // return view('theme.medibazaar.home', $data);
     }
 
     function contact()

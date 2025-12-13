@@ -41,9 +41,9 @@ class ProductRepository
             }])
             ->withSelection();
 
-            if (auth()->check() && !empty($filters['is_wishlisted'])) {
-                $query->whereHas('wishlists', fn($q) => $q->where('user_id', auth()->id()));
-            }
+        if (auth()->check() && !empty($filters['is_wishlisted'])) {
+            $query->whereHas('wishlists', fn($q) => $q->where('user_id', auth()->id()));
+        }
 
         // Handle pagination
         if (Request::has('page')) {

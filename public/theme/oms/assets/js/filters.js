@@ -1,11 +1,12 @@
 // ===============================
 // Global State
 // ===============================
-let activeAttributeKeys = []; // Used to track current dynamic attributes for cleanup
-let currencySymbol = $("meta[name='currency-symbol']").attr("content") || "AED";
+let activeAttributeKeys = [];
+let currencySymbol = $("meta[name='currency-symbol']").attr("content") || "GBP";
+let ajaxRequest = null; // prevent race conditions
 
 // ===============================
-// 1. Price Slider Initialization
+// Price Slider Initialization
 // ===============================
 function initPriceSlider(
     sliderId,
@@ -15,16 +16,15 @@ function initPriceSlider(
     startMax = 2000,
     onChange = null
 ) {
-    const $slider = document.getElementById(sliderId);
+    const slider = document.getElementById(sliderId);
+    if (!slider) return;
+
     const $labelMin = $("#" + labelMinId);
     const $labelMax = $("#" + labelMaxId);
 
-    if (!$slider) return;
+    if (slider.noUiSlider) slider.noUiSlider.destroy();
 
-    // Destroy previous instance if exists
-    if ($slider.noUiSlider) $slider.noUiSlider.destroy();
-
-    noUiSlider.create($slider, {
+    noUiSlider.create(slider, {
         start: [startMin, startMax],
         connect: true,
         range: { min: 0, max: 10000 },
@@ -35,28 +35,21 @@ function initPriceSlider(
         },
     });
 
-    // Live update on slide
-    $slider.noUiSlider.on("update", function (values) {
-        $labelMin.html(currencySymbol + " " + values[0]);
-        $labelMax.html(currencySymbol + " " + values[1]);
+    slider.noUiSlider.on("update", (values) => {
+        $labelMin.text(`${currencySymbol} ${values[0]}`);
+        $labelMax.text(`${currencySymbol} ${values[1]}`);
     });
-    // $slider.noUiSlider.on("update", function (values) {
-    //     $labelMin.html(values[0] + " " + currencySymbol);
-    //     $labelMax.html(values[1] + " " + currencySymbol);
-    // });
 
-    // Trigger product refresh after sliding ends
     if (onChange) {
-        $slider.noUiSlider.on("change", function () {
-            onChange();
-        });
+        slider.noUiSlider.on("change", onChange);
     }
 }
 
+// ===============================
+// DOM Ready
+// ===============================
 $(function () {
-    // ===============================
-    // 2. Initialize Sidebar Slider
-    // ===============================
+    // Init sidebar price slider
     initPriceSlider(
         "price-slider-sidebar",
         "priceLabelMinSidebar",
@@ -66,58 +59,20 @@ $(function () {
         () => fetchProducts(1)
     );
 
-    // Modal slider (optional)
-    $("#openFilterModal").on("click", function () {
-        const modal = new bootstrap.Modal(
-            document.getElementById("filterModal")
-        );
-        modal.show();
-
-        setTimeout(() => {
-            initPriceSlider(
-                "price-slider-modal",
-                "priceLabelMinModal",
-                "priceLabelMaxModal"
-            );
-        }, 300);
-    });
-
     // ===============================
-    // 3. Read Filters from URL
-    // ===============================
-    function getFiltersFromURL() {
-        const params = new URLSearchParams(window.location.search);
-        let filters = {};
-
-        for (let [key, value] of params.entries()) {
-            if (key.endsWith("[]")) {
-                const base = key.replace("[]", "");
-                filters[base] = filters[base] || [];
-                filters[base].push(value);
-            } else {
-                filters[key] = value;
-            }
-        }
-        return filters;
-    }
-
-    // ===============================
-    // 4. Update URL with Clean Filter Set
+    // Update URL (clean + safe)
     // ===============================
     function updateURL(filters, page = 1) {
         const params = new URLSearchParams();
 
-        // Remove old dynamic attribute filters
-        for (let key of [...(filters ? Object.keys(filters) : [])]) {
-            if (key.startsWith("attr_") && !activeAttributeKeys.includes(key)) {
-                delete filters[key];
-            }
-        }
-        // Apply new filters
-        $.each(filters, function (key, value) {
+        Object.keys(filters).forEach((key) => {
+            if (key.startsWith("attr_") && !activeAttributeKeys.includes(key))
+                return;
+
+            const value = filters[key];
             if (Array.isArray(value)) {
-                value.forEach((val) => params.append(`${key}[]`, val));
-            } else {
+                value.forEach((v) => params.append(`${key}[]`, v));
+            } else if (value !== "" && value !== null && value !== undefined) {
                 params.set(key, value);
             }
         });
@@ -127,19 +82,19 @@ $(function () {
     }
 
     // ===============================
-    // 5. Collect Filter Data from UI
+    // Collect Filters
     // ===============================
     function collectFilters() {
         let filters = {};
 
         // Active category
-        const activeCategory = $(".category-list li a.active").data("category");
-
-
+        const activeCategory = $(".category-list li.active").data(
+            "category-slug"
+        );
         if (activeCategory) filters.category = activeCategory;
 
         // All select inputs (including dynamic attributes)
-        $(".select").each(function () {
+        $(".theme-select").each(function () {
             const name = $(this).attr("name") || $(this).data("filter");
             if (name && $(this).val()) {
                 filters[name] = $(this).val();
@@ -153,14 +108,17 @@ $(function () {
             })
             .get();
 
-
         // Price
-        // filters.price_min = $("#priceLabelMinSidebar")
-        //     .text()
-        //     .replace(/[^0-9.,]/g, "").replace(/,/g, "").trim();
-        // filters.price_max = $("#priceLabelMaxSidebar")
-        //     .text()
-        //     .replace(/[^0-9.,]/g, "").replace(/,/g, "").trim();
+        filters.price_min = $("#priceLabelMinSidebar")
+            .text()
+            .replace(/[^0-9.,]/g, "")
+            .replace(/,/g, "")
+            .trim();
+        filters.price_max = $("#priceLabelMaxSidebar")
+            .text()
+            .replace(/[^0-9.,]/g, "")
+            .replace(/,/g, "")
+            .trim();
 
         // filters.price_min = $("#priceLabelMinSidebar")
         //     .text()
@@ -179,34 +137,36 @@ $(function () {
     }
 
     // ===============================
-    // 6. AJAX Product Fetcher
+    // Fetch Products (AJAX)
     // ===============================
     function fetchProducts(page = 1) {
         const filters = collectFilters();
         updateURL(filters, page);
 
-        $.ajax({
+        if (ajaxRequest) ajaxRequest.abort();
+
+        ajaxRequest = $.ajax({
             url: window.ajaxProductURL,
             method: "GET",
             data: { ...filters, page },
-            success: function (res) {
-                if (res.success) {
-                    renderProducts(res.data.products);
-                    render_pagination(res.data.pagination);
-                }
+            success(res) {
+                if (!res.success) return;
+
+                renderProducts(res.data.products || []);
+                render_pagination(res.data.pagination || {});
+            },
+            complete() {
+                ajaxRequest = null;
             },
         });
     }
 
     // ===============================
-    // 7. Render Product Grid
+    // Render Products
     // ===============================
-
     function renderProducts(products) {
-        const $grid = $("#products");
-        const $list = $("#products-list");
-        $grid.empty();
-        $list.empty();
+        const $grid = $("#products").empty();
+        const $list = $("#products-list").empty();
 
         products.forEach((product) => {
             $grid.append(render_product_card(product, true));
@@ -215,14 +175,13 @@ $(function () {
     }
 
     // ===============================
-    // 8. Render Attribute Filters Dynamically
+    // Dynamic Attribute Filters
     // ===============================
     function renderDynamicAttributeFilters(attributes) {
-        const $container = $("#dynamic-attribute-filters");
+        const $container = $("#dynamic-attribute-filters").empty();
         const urlParams = new URLSearchParams(window.location.search);
 
-        $container.empty();
-        activeAttributeKeys = []; // Reset tracked keys
+        activeAttributeKeys = [];
 
         attributes.forEach((attr) => {
             const key = `attr_${attr.id}`;
@@ -233,15 +192,17 @@ $(function () {
             const $wrapper = $(
                 `<div class="mb-4"><h5 class="fs-3 mb-3">${attr.name}</h5></div>`
             );
-            const $select =
-                $(`<select class="form-select theme-select" name="${key}" data-attribute="${attr.id}">
-                              <option value="">Select ${attr.name}</option>
-                           </select>`);
+            const $select = $(
+                `<select class="form-select theme-select form-control" name="${key}">
+                    <option value="">Select ${attr.name}</option>
+                </select>`
+            );
 
             $.each(attr.values, function (id, val) {
-                const selected = id === selectedValue ? "selected" : "";
                 $select.append(
-                    `<option value="${id}" ${selected}>${val}</option>`
+                    `<option value="${id}" ${
+                        id == selectedValue ? "selected" : ""
+                    }>${val}</option>`
                 );
             });
 
@@ -250,9 +211,6 @@ $(function () {
         });
     }
 
-    // ===============================
-    // 10. Load Attributes for Selected Category
-    // ===============================
     function loadInitialAttributeFilters(categoryId) {
         if (!categoryId) return;
 
@@ -264,16 +222,29 @@ $(function () {
     }
 
     // ===============================
-    // 11. Event Bindings
+    // Category Click (AJAX)
     // ===============================
-    // Category click
-    $(document).on("click", ".category-list li", function () {
-        $(".category-list li").removeClass("active");
-        $(this).addClass("active");
+    $(document).on("click", ".parent-category, .child-category", function (e) {
+        e.preventDefault();
 
-        const categoryId = $(this).data("category");
+        const $row = $(this);
+
+        // 1. Toggle expand ONLY for parent
+        if ($row.hasClass("parent-category")) {
+            $row.toggleClass("is-open");
+        }
+
+        // 2. Active state
+        $(".category-row").removeClass("active");
+        $row.addClass("active");
+
+        const categoryId = $row.data("category");
+        if (!categoryId) return;
+
+        // 3. Load attributes
         loadInitialAttributeFilters(categoryId);
-        // Reset sidebar slider to default
+
+        // 4. Reset price slider
         initPriceSlider(
             "price-slider-sidebar",
             "priceLabelMinSidebar",
@@ -282,31 +253,38 @@ $(function () {
             2000,
             () => fetchProducts(1)
         );
+
+        // 5. Fetch products
         fetchProducts(1);
     });
 
+    $(".child-category.active").each(function () {
+        const $parent = $(this)
+            .closest(".sub-category-group")
+            .prev(".parent-category");
+        $parent.addClass("is-open has-active-child");
+    });
+
+    // ===============================
     // Search
+    // ===============================
     let searchTimer;
     $(".search-input").on("keyup", function () {
         clearTimeout(searchTimer);
-        searchTimer = setTimeout(function () {
-            fetchProducts(1);
-        }, 500);
+        searchTimer = setTimeout(() => fetchProducts(1), 400);
     });
 
-    // Static filters (brand, color, sort, search)
-    $("select").on("change", () =>
+    // ===============================
+    // Filters Change
+    // ===============================
+    $(document).on("change", "select", () => fetchProducts(1));
+    $(document).on("change", "#dynamic-attribute-filters select", () =>
         fetchProducts(1)
     );
 
-    // Dynamic filters (attribute dropdowns)
-    $(document).on(
-        "change",
-        "#dynamic-attribute-filters select.theme-select",
-        () => fetchProducts(1)
-    );
-
-    // Pagination click
+    // ===============================
+    // Pagination
+    // ===============================
     $(document).on("click", ".pagination .page-link", function (e) {
         e.preventDefault();
         const page = $(this).data("page");
@@ -314,10 +292,16 @@ $(function () {
     });
 
     // ===============================
-    // 12. Initial Page Load
+    // Initial Load
     // ===============================
     const initialPage =
         parseInt(new URLSearchParams(window.location.search).get("page")) || 1;
     fetchProducts(initialPage);
-    loadInitialAttributeFilters(window.activeCategoryId);
+
+    if (window.activeCategoryId) {
+        $(`.category-row[data-category="${window.activeCategoryId}"]`).addClass(
+            "active"
+        );
+        loadInitialAttributeFilters(window.activeCategoryId);
+    }
 });

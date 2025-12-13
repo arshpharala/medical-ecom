@@ -646,3 +646,202 @@ if (typeof ($.fn.knob) != 'undefined') {
 	});
 
 	})(jQuery);
+
+
+function render_product_card(product, grid = true) {
+
+    // ===============================
+    // Pricing logic
+    // ===============================
+    const hasOffer = product.offer_data?.has_offer;
+    const discountedPrice =
+        hasOffer && product.offer_data.discounted_price > 0
+            ? product.offer_data.discounted_price_with_currency
+            : null;
+
+    const originalPrice = hasOffer
+        ? `<span class="text-muted text-decoration-line-through ms-2">
+                ${product.price_with_currency}
+           </span>`
+        : "";
+
+    const displayPrice = discountedPrice
+        ? discountedPrice
+        : product.price_with_currency;
+
+    const isWishlisted = !!product.is_wishlisted;
+
+    // ===============================
+    // GRID CARD (same as Blade)
+    // ===============================
+    if (grid) {
+        return `
+        <div class="col-xl-3 col-lg-4 col-md-6 mb-30">
+            <div class="product-wrapper text-center mb-45">
+                <div class="product-img pos-rel">
+                    <a href="${product.link}">
+                        <img src="${product.image}" alt="${product.name}">
+                    </a>
+
+                    <div class="product-action">
+                        <a class="action-btn ${isWishlisted ? 'is-active' : ''}"
+                           data-variant-id="${product.id}" href="#">
+                            <i class="far fa-heart"></i>
+                        </a>
+
+                        <a class="c-btn add-to-cart-btn"
+                           data-variant-id="${product.id}" href="#">
+                            add to cart <i class="far fa-plus"></i>
+                        </a>
+
+                        <a class="action-btn" href="${product.link}">
+                            <i class="far fa-search"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="product-text">
+                    <h5>${product.category_name || ''}</h5>
+
+                    <h4>
+                        <a href="${product.link}">
+                            ${product.name}
+                        </a>
+                    </h4>
+
+                    <span class="fw-bold">
+                        ${displayPrice}
+                        ${originalPrice}
+                    </span>
+                </div>
+            </div>
+        </div>`;
+    }
+
+    // ===============================
+    // LIST CARD (consistent + clean)
+    // ===============================
+    return `
+    <div class="col-xl-12">
+        <div class="product-wrapper product-list-wrapper mb-30 d-flex align-items-start">
+            <div class="product-img me-4">
+                <a href="${product.link}">
+                    <img src="${product.image}" alt="${product.name}">
+                </a>
+            </div>
+
+            <div class="product-text text-start">
+                <h5>${product.category_name || ''}</h5>
+
+                <h4>
+                    <a href="${product.link}">
+                        ${product.name}
+                    </a>
+                </h4>
+
+                <span class="fw-bold">
+                    ${displayPrice}
+                    ${originalPrice}
+                </span>
+
+                <div class="product-action mt-15">
+                    <a class="action-btn ${isWishlisted ? 'is-active' : ''}"
+                       data-variant-id="${product.id}" href="#">
+                        <i class="far fa-heart"></i>
+                    </a>
+
+                    <a class="c-btn add-to-cart-btn"
+                       data-variant-id="${product.id}" href="#">
+                        add to cart <i class="far fa-plus"></i>
+                    </a>
+
+                    <a class="action-btn" href="${product.link}">
+                        <i class="far fa-search"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>`;
+}
+
+function render_pagination(pagination) {
+    const $wrapper = $(".basic-pagination ul");
+    $wrapper.empty();
+
+    // Prev
+    if (pagination.current_page > 1) {
+        $wrapper.append(
+            `<li><a href="#" class="page-link" data-page="${pagination.current_page - 1}">
+                <i class="far fa-angle-left"></i>
+             </a></li>`
+        );
+    }
+
+    // Page numbers
+    for (let i = 1; i <= pagination.last_page; i++) {
+        const active = i === pagination.current_page ? "active" : "";
+        $wrapper.append(
+            `<li class="${active}">
+                <a href="#" class="page-link" data-page="${i}">${i}</a>
+             </li>`
+        );
+    }
+
+    // Next
+    if (pagination.current_page < pagination.last_page) {
+        $wrapper.append(
+            `<li><a href="#" class="page-link" data-page="${pagination.current_page + 1}">
+                <i class="far fa-angle-right"></i>
+             </a></li>`
+        );
+    }
+}
+
+
+$(document).on("change", "#province-select", function () {
+    const provinceId = $(this).val();
+    $("#city-select").html('<option value="">Loading...</option>');
+    $("#area-select").html('<option value="">Select your area</option>');
+
+    if (provinceId) {
+        $.get(`${appUrl}/ajax/cities/${provinceId}`, function (data) {
+            let options = '<option value="">Select your city</option>';
+            data.forEach((city) => {
+                options += `<option value="${city.id}">${city.name}</option>`;
+            });
+            $("#city-select").html(options);
+        });
+    }
+});
+
+$(document).on("change", "#city-select", function () {
+    const cityId = $(this).val();
+    $("#area-select").html('<option value="">Loading...</option>');
+
+    if (cityId) {
+        $.get(`${appUrl}/ajax/areas/${cityId}`, function (data) {
+            let options = '<option value="">Select your area</option>';
+            data.forEach((area) => {
+                options += `<option value="${area.id}">${area.name}</option>`;
+            });
+            $("#area-select").html(options);
+        });
+    }
+});
+
+$(document).on('click', '.wishlist-btn', function () {
+    const $btn = $(this);
+    const product_variant_id = $btn.data('variant-id') || null;
+
+    $.post(`${appUrl}/customers/wishlist`, {
+        product_variant_id, toggle: true
+    }).done(function (res) {
+        // Update wishlist counter somewhere in header
+        $('body').find('#wishlist-count').text(res.wishlist.count);
+
+        // Toggle UI
+        $btn.toggleClass('is-active');
+    }).fail(function () {
+        alert('Unable to update wishlist.');
+    });
+});
