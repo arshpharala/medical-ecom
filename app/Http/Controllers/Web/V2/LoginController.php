@@ -32,7 +32,7 @@ class LoginController extends Controller
         }
 
         $data['page'] = $page;
-        return view('theme.medibazaar.auth.login', $data);
+        return view('theme.oms.auth.login', $data);
     }
 
     /**

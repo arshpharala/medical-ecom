@@ -684,13 +684,13 @@ function render_product_card(product, grid = true) {
                     </a>
 
                     <div class="product-action">
-                        <a class="action-btn ${isWishlisted ? 'is-active' : ''}"
-                           data-variant-id="${product.id}" href="#">
+                        <a class="action-btn wishlist-btn ${isWishlisted ? 'is-active' : ''}"
+                           data-variant-id="${product.id}" href="javascript:void(0)">
                             <i class="far fa-heart"></i>
                         </a>
 
                         <a class="c-btn add-to-cart-btn"
-                           data-variant-id="${product.id}" href="#">
+                           data-variant-id="${product.id}" href="javascript:void(0)">
                             add to cart <i class="far fa-plus"></i>
                         </a>
 
@@ -745,13 +745,13 @@ function render_product_card(product, grid = true) {
                 </span>
 
                 <div class="product-action mt-15">
-                    <a class="action-btn ${isWishlisted ? 'is-active' : ''}"
-                       data-variant-id="${product.id}" href="#">
+                    <a class="action-btn wishlist-btn ${isWishlisted ? 'is-active' : ''}"
+                       data-variant-id="${product.id}" href="javascript:void(0)">
                         <i class="far fa-heart"></i>
                     </a>
 
                     <a class="c-btn add-to-cart-btn"
-                       data-variant-id="${product.id}" href="#">
+                       data-variant-id="${product.id}" href="javascript:void(0)">
                         add to cart <i class="far fa-plus"></i>
                     </a>
 

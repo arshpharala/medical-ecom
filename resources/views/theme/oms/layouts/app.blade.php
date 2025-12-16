@@ -211,6 +211,57 @@
   <script src="{{ asset('theme/oms/assets/js/plugins.js') }}"></script>
   <script src="{{ asset('theme/oms/assets/js/main.js') }}"></script>
 
+  <!-- Add to Cart Handler -->
+  <script>
+  $(document).ready(function() {
+      $(document).on('click', '.add-to-cart-btn', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+
+          var $btn = $(this);
+          var variantId = $btn.attr('data-variant-id');
+          var qty = 1;
+
+          if (!variantId) {
+              alert('Error: Product not found');
+              return false;
+          }
+
+          var originalHtml = $btn.html();
+          $btn.html('<i class="fas fa-spinner fa-spin"></i>');
+
+          $.ajax({
+              url: appUrl + '/cart',
+              type: 'POST',
+              headers: {
+                  'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+              },
+              data: {
+                  variant_id: variantId,
+                  qty: qty
+              },
+              success: function(response) {
+                  if (response.success) {
+                      var count = response.cart.count || 0;
+                      $('.cart-count').text(count).show();
+                      $('#cart-count-top').text(count).show();
+                      $btn.html('<i class="fas fa-check"></i> Added!').css('background', '#28a745');
+                      setTimeout(function() {
+                          $btn.html(originalHtml).css('background', '');
+                      }, 2000);
+                  }
+              },
+              error: function(xhr) {
+                  alert('Failed to add to cart');
+                  $btn.html(originalHtml);
+              }
+          });
+
+          return false;
+      });
+  });
+  </script>
+
   @stack('scripts')
 </body>
 

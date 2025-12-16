@@ -28,7 +28,7 @@
                         $headerCartCount = is_array($cartItems) ? count($cartItems) : 0;
                       @endphp
                       <span class="cart-count" id="cart-count-top"
-                        style="background: #ff6f61; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 50%; position: absolute; top: -8px; right: -10px; {{ $headerCartCount > 0 ? '' : 'display: none;' }}">{{ $headerCartCount }}</span>
+                        style="background: #ff6f61; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 50%; position: absolute; top: -8px; right: 140px; {{ $headerCartCount > 0 ? '' : 'display: none;' }}">{{ $headerCartCount }}</span>
                     </a>
                   </li>
                   <li><a href="{{ route('customers.profile') }}#wishlist"><i class="far fa-heart"></i> Wishlist</a>
