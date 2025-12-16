@@ -259,6 +259,22 @@ class CheckoutController extends Controller
             'external_reference' => $intent->id,
         ]);
 
+        // Send notification emails to suppliers
+        $order->load([
+            'lineItems.productVariant.product.supplier',
+            'user',
+            'billingAddress.country',
+            'currency'
+        ]);
+
+        $suppliers = $order->lineItems->map(function ($item) {
+            return $item->productVariant->product->supplier;
+        })->unique('id')->filter();
+
+        foreach ($suppliers as $supplier) {
+            \Illuminate\Support\Facades\Mail::to($supplier->email)->send(new \App\Mail\SupplierOrderNotification($order, $supplier));
+        }
+
         if ($this->cart->hasCoupon()) {
             CouponUsage::create([
                 'coupon_id' => $this->cart->getCoupon()['id'],
@@ -326,6 +342,22 @@ class CheckoutController extends Controller
             'payment_status'       => 'paid',
             'external_reference'   => $paypalResponse['id'],
         ]);
+
+        // Send notification emails to suppliers
+        $order->load([
+            'lineItems.productVariant.product.supplier',
+            'user',
+            'billingAddress.country',
+            'currency'
+        ]);
+
+        $suppliers = $order->lineItems->map(function ($item) {
+            return $item->productVariant->product->supplier;
+        })->unique('id')->filter();
+
+        foreach ($suppliers as $supplier) {
+            \Illuminate\Support\Facades\Mail::to($supplier->email)->send(new \App\Mail\SupplierOrderNotification($order, $supplier));
+        }
 
         if ($this->cart->hasCoupon()) {
             CouponUsage::create([

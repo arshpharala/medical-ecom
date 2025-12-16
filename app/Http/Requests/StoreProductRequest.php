@@ -38,6 +38,7 @@ class StoreProductRequest extends FormRequest
             'is_featured' => 'nullable|boolean',
             'is_new' => 'nullable|boolean',
             'show_in_slider' => 'nullable|boolean',
+            'supplier_id' => 'required|exists:suppliers,id',
         ], $nameRules, $descRules);
     }
 }

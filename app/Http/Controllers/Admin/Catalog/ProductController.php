@@ -13,6 +13,7 @@ use Yajra\DataTables\Facades\DataTables;
 use App\Http\Requests\StoreProductRequest;
 use App\Models\Catalog\ProductTranslation;
 use App\Http\Requests\UpdateProductRequest;
+use App\Models\Inventory\Supplier;
 use App\Models\Seo\Keyword;
 use App\Models\Seo\Meta;
 
@@ -27,25 +28,25 @@ class ProductController extends Controller
             $locale = app()->getLocale();
 
             $query = Product::withTrashed()
-            ->leftJoin('categories', 'categories.id', 'products.category_id')
-            ->leftJoin('product_translations', function($join){
-                $join->on('products.id', 'product_translations.product_id')->where('product_translations.locale', app()->getLocale());
-            })
-            ->leftJoin('category_translations', function($join){
-                $join->on('categories.id', 'category_translations.category_id')->where('category_translations.locale', app()->getLocale());
-            })
-            ->leftJoin('brands', 'brands.id', 'products.brand_id')
-            ->select(
-                'products.id',
-                'products.category_id',
-                'products.slug',
-                'products.is_active',
-                'products.created_at',
-                'products.deleted_at',
-                'product_translations.name',
-                'category_translations.name as category_name',
-                'brands.name as brand_name'
-            );
+                ->leftJoin('categories', 'categories.id', 'products.category_id')
+                ->leftJoin('product_translations', function ($join) {
+                    $join->on('products.id', 'product_translations.product_id')->where('product_translations.locale', app()->getLocale());
+                })
+                ->leftJoin('category_translations', function ($join) {
+                    $join->on('categories.id', 'category_translations.category_id')->where('category_translations.locale', app()->getLocale());
+                })
+                ->leftJoin('brands', 'brands.id', 'products.brand_id')
+                ->select(
+                    'products.id',
+                    'products.category_id',
+                    'products.slug',
+                    'products.is_active',
+                    'products.created_at',
+                    'products.deleted_at',
+                    'product_translations.name',
+                    'category_translations.name as category_name',
+                    'brands.name as brand_name'
+                );
 
             return DataTables::of($query)
                 ->editColumn('status', function ($row) {
@@ -85,11 +86,11 @@ class ProductController extends Controller
     {
         $categories = Category::with(['translations'])->get();
         $brands         = Brand::all();
-
+        $suppliers     = Supplier::where('is_active', 1)->get();
 
         $data['categories']     = $categories;
         $data['brands']         = $brands;
-
+        $data['suppliers']      = $suppliers;
         $response['view'] = view('theme.adminlte.catalog.products.create', $data)->render();
 
         return response()->json([
@@ -113,6 +114,7 @@ class ProductController extends Controller
             'is_featured'      => $request->boolean('is_featured'),
             'is_new'           => $request->boolean('is_new'),
             'show_in_slider'   => $request->boolean('show_in_slider'),
+            'supplier_id'       => $request->supplier_id,
         ]);
 
         // 2. Translations
@@ -153,11 +155,13 @@ class ProductController extends Controller
 
         $categories = Category::with('translations')->get();
         $brands     = Brand::all();
+        $suppliers  = Supplier::where('is_active', 1)->get();
 
 
         $data['product']            = $product;
         $data['categories']         = $categories;
         $data['brands']             = $brands;
+        $data['suppliers']          = $suppliers;
 
         return view('theme.adminlte.catalog.products.edit', $data);
     }
@@ -179,6 +183,7 @@ class ProductController extends Controller
             'is_featured'      => $request->boolean('is_featured'),
             'is_new'           => $request->boolean('is_new'),
             'show_in_slider'   => $request->boolean('show_in_slider'),
+            'supplier_id'       => $request->supplier_id,
         ]);
 
         // Translations
@@ -247,6 +252,5 @@ class ProductController extends Controller
             'message'   => __('crud.restored', ['name' => 'Product']),
             'redirect'  => route('admin.catalog.products.index'),
         ]);
-
     }
 }

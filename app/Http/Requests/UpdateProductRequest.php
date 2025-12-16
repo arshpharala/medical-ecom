@@ -39,7 +39,8 @@ class UpdateProductRequest extends FormRequest
             'is_active' => 'nullable|boolean',
             'is_featured' => 'nullable|boolean',
             'is_new' => 'nullable|boolean',
-            'show_in_slider' => 'nullable|boolean'
+            'show_in_slider' => 'nullable|boolean',
+            'supplier_id' => 'required|exists:suppliers,id',
         ], $nameRules, $descRules);
     }
 }

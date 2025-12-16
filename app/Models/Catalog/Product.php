@@ -19,12 +19,13 @@ class Product extends Model
     protected $fillable = [
         'category_id',
         'brand_id',
+        'supplier_id',
         'slug',
         'is_active',
         'is_featured',
         'is_new',
         'show_in_slider',
-        'position'
+        'position',
     ];
 
     public function category()
@@ -35,6 +36,11 @@ class Product extends Model
     public function brand()
     {
         return $this->belongsTo(Brand::class);
+    }
+
+    public function supplier()
+    {
+        return $this->belongsTo(\App\Models\Inventory\Suppliers::class);
     }
 
     public function translations()

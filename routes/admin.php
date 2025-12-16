@@ -28,6 +28,7 @@ use App\Http\Controllers\Admin\Catalog\AttributeController;
 use App\Http\Controllers\Admin\CMS\PaymentGatewayController;
 use App\Http\Controllers\Admin\Catalog\ProductVariantController;
 use App\Http\Controllers\Admin\Inventory\InventorySourceController;
+use App\Http\Controllers\Admin\Inventory\SupplierController;
 use App\Http\Controllers\Admin\Catalog\ProductVariantOfferController;
 use App\Http\Controllers\Admin\CMS\BannerController;
 use App\Http\Controllers\Admin\CMS\NewsController;
@@ -100,6 +101,9 @@ Route::group(['prefix' => '/inventory', 'as' => 'inventory.'], function () {
 
     Route::resource('sources',                               InventorySourceController::class);
     Route::delete('sources/{source}/restore',                [InventorySourceController::class, 'restore'])->name('sources.restore');
+
+    Route::resource('suppliers',                             SupplierController::class);
+    Route::delete('suppliers/{supplier}/restore',            [SupplierController::class, 'restore'])->name('suppliers.restore');
 });
 
 Route::group(['prefix' => '/cms', 'as' => 'cms.'], function () {

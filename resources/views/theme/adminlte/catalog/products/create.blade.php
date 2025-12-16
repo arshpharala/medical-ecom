@@ -24,69 +24,80 @@
           </div>
 
           <div class="form-group">
-            <label for="brand_id">Brand</label>
-            <select name="brand_id" class="form-control">
-              <option value="">None</option>
-              @foreach ($brands as $brand)
-                <option value="{{ $brand->id }}">
-                  {{ $brand->name }}
+            <label for="supplier_id">Supplier</label>
+            <select name="supplier_id" id="supplier_id" class="form-control" required>
+              <option value="">Select Supplier</option>
+              @foreach ($suppliers as $supplier)
+                <option value="{{ $supplier->id }}">
+                  {{ $supplier->name }}
                 </option>
               @endforeach
             </select>
-          </div>
-
-          <div class="form-group">
-            <label>Slug</label>
-            <input type="text" name="slug" class="form-control" required>
-          </div>
-
-          {{-- Name and Description fields for ALL LANGUAGES --}}
-          @foreach (active_locals() as $locale)
-            <div class="form-group">
-              <label for="name_{{ $locale }}">Name ({{ strtoupper($locale) }})</label>
-              <input type="text" name="name[{{ $locale }}]" class="form-control" required>
-            </div>
 
             <div class="form-group">
-              <label for="description_{{ $locale }}">Description ({{ strtoupper($locale) }})</label>
-              <textarea name="description[{{ $locale }}]" class="form-control" rows="3"></textarea>
+              <label for="brand_id">Brand</label>
+              <select name="brand_id" class="form-control">
+                <option value="">None</option>
+                @foreach ($brands as $brand)
+                  <option value="{{ $brand->id }}">
+                    {{ $brand->name }}
+                  </option>
+                @endforeach
+              </select>
             </div>
-          @endforeach
 
-          <div class="form-group">
-            <label for="position">Position</label>
-            <input type="number" name="position" class="form-control">
+            <div class="form-group">
+              <label>Slug</label>
+              <input type="text" name="slug" class="form-control" required>
+            </div>
+
+            {{-- Name and Description fields for ALL LANGUAGES --}}
+            @foreach (active_locals() as $locale)
+              <div class="form-group">
+                <label for="name_{{ $locale }}">Name ({{ strtoupper($locale) }})</label>
+                <input type="text" name="name[{{ $locale }}]" class="form-control" required>
+              </div>
+
+              <div class="form-group">
+                <label for="description_{{ $locale }}">Description ({{ strtoupper($locale) }})</label>
+                <textarea name="description[{{ $locale }}]" class="form-control" rows="3"></textarea>
+              </div>
+            @endforeach
+
+            <div class="form-group">
+              <label for="position">Position</label>
+              <input type="number" name="position" class="form-control">
+            </div>
+
+            <div class="form-group">
+              <div class="custom-control custom-switch mb-2">
+                <input type="checkbox" name="is_active" value="1" class="custom-control-input" id="is_active">
+                <label class="custom-control-label" for="is_active">Active</label>
+              </div>
+              <div class="custom-control custom-switch mb-2">
+                <input type="checkbox" name="is_featured" value="1" class="custom-control-input" id="is_featured">
+                <label class="custom-control-label" for="is_featured">Featured</label>
+              </div>
+              <div class="custom-control custom-switch mb-2">
+                <input type="checkbox" name="is_new" value="1" class="custom-control-input" id="is_new">
+                <label class="custom-control-label" for="is_new">New Arrival</label>
+              </div>
+              <div class="custom-control custom-switch mb-2">
+                <input type="checkbox" name="show_in_slider" value="1" class="custom-control-input"
+                  id="show_in_slider">
+                <label class="custom-control-label" for="show_in_slider">Show in Slider</label>
+              </div>
+            </div>
+
           </div>
-
-          <div class="form-group">
-            <div class="custom-control custom-switch mb-2">
-              <input type="checkbox" name="is_active" value="1" class="custom-control-input" id="is_active">
-              <label class="custom-control-label" for="is_active">Active</label>
-            </div>
-            <div class="custom-control custom-switch mb-2">
-              <input type="checkbox" name="is_featured" value="1" class="custom-control-input" id="is_featured">
-              <label class="custom-control-label" for="is_featured">Featured</label>
-            </div>
-            <div class="custom-control custom-switch mb-2">
-              <input type="checkbox" name="is_new" value="1" class="custom-control-input" id="is_new">
-              <label class="custom-control-label" for="is_new">New Arrival</label>
-            </div>
-            <div class="custom-control custom-switch mb-2">
-              <input type="checkbox" name="show_in_slider" value="1" class="custom-control-input"
-                id="show_in_slider">
-              <label class="custom-control-label" for="show_in_slider">Show in Slider</label>
-            </div>
-          </div>
-
         </div>
+
       </div>
-
     </div>
-  </div>
 
 
-  <!-- Fixed Buttons -->
-  @include('theme.adminlte.components._aside-footer')
+    <!-- Fixed Buttons -->
+    @include('theme.adminlte.components._aside-footer')
 
 </form>
 <script>

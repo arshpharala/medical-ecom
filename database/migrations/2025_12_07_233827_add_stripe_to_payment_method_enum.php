@@ -1,7 +1,9 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -11,7 +13,7 @@ return new class extends Migration
     public function up(): void
     {
         // Change enum to include stripe and cod
-        DB::statement("ALTER TABLE orders MODIFY COLUMN payment_method ENUM('card', 'paypal', 'stripe', 'cod') NOT NULL");
+        DB::statement("ALTER TABLE ec_orders MODIFY COLUMN payment_method ENUM('card', 'paypal', 'stripe', 'cod') NOT NULL");
     }
 
     /**
@@ -19,6 +21,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        DB::statement("ALTER TABLE orders MODIFY COLUMN payment_method ENUM('card', 'paypal') NOT NULL");
+        DB::statement("ALTER TABLE ec_orders MODIFY COLUMN payment_method ENUM('card', 'paypal') NOT NULL");
     }
 };

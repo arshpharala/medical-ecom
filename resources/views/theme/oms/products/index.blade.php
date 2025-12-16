@@ -236,9 +236,9 @@
                 </div>
               </div>
               <div class="col-xl-4 col-lg-5 col-md-5">
-                <div class="pro-tab1-content pt-15 mb-20 text-md-center">
+                {{-- <div class="pro-tab1-content pt-15 mb-20 text-md-center">
                   <h4>Showing 20 Results Of 50 Products</h4>
-                </div>
+                </div> --}}
               </div>
               <div class="col-xl-4 col-lg-4 col-md-4">
                 <div class="pro-filter mb-20 f-right">
