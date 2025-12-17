@@ -131,7 +131,7 @@ class HomeController extends Controller
 
         $data['page'] = $page;
 
-        return view('theme.medibazaar.contact', $data);
+        return view('theme.oms.contact', $data);
     }
 
     function about()
@@ -142,7 +142,7 @@ class HomeController extends Controller
 
         $data['page'] = $page;
 
-        return view('theme.medibazaar.about', $data);
+        return view('theme.oms.about', $data);
     }
 
 
@@ -154,7 +154,7 @@ class HomeController extends Controller
 
         $data['page'] = $page;
 
-        return view('theme.xtremez.page', $data);
+        return view('theme.oms.page', $data);
     }
 
     function currencies()
