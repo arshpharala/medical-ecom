@@ -676,7 +676,7 @@ function render_product_card(product, grid = true) {
     // ===============================
     if (grid) {
         return `
-        <div class="col-xl-3 col-lg-4 col-md-6 mb-30">
+        <div class="col-xl-4 col-lg-4 col-md-6 mb-30">
             <div class="product-wrapper text-center mb-45">
                 <div class="product-img pos-rel">
                     <a href="${product.link}">

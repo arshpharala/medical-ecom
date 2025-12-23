@@ -1,6 +1,6 @@
 /*
 SQLyog Community v13.3.0 (64 bit)
-MySQL - 11.2.2-MariaDB : Database - medibazar
+MySQL - 11.2.2-MariaDB : Database - optiqtip_oms
 *********************************************************************
 */
 
@@ -12,9 +12,9 @@ MySQL - 11.2.2-MariaDB : Database - medibazar
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-CREATE DATABASE /*!32312 IF NOT EXISTS*/`medibazar` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`optiqtip_oms` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci */;
 
-USE `medibazar`;
+USE `optiqtip_oms`;
 
 /*Table structure for table `ec_addresses` */
 
@@ -79,7 +79,7 @@ CREATE TABLE `ec_admins` (
 
 LOCK TABLES `ec_admins` WRITE;
 
-insert  into `ec_admins`(`id`,`name`,`email`,`password`,`remember_token`,`created_at`,`updated_at`) values 
+insert  into `ec_admins`(`id`,`name`,`email`,`password`,`remember_token`,`created_at`,`updated_at`) values
 (1,'Admin','admin@example.com','$2y$12$mCl.6oNMs7cbzPv/xIvGUeBtFoOWUsHySrZ2vz.BDUQ.PwsTqsD4G',NULL,'2025-08-13 02:39:41','2025-08-13 02:39:41');
 
 UNLOCK TABLES;
@@ -101,7 +101,7 @@ CREATE TABLE `ec_areas` (
 
 LOCK TABLES `ec_areas` WRITE;
 
-insert  into `ec_areas`(`id`,`city_id`,`name`,`created_at`,`updated_at`) values 
+insert  into `ec_areas`(`id`,`city_id`,`name`,`created_at`,`updated_at`) values
 (1,1,'Al Maryah Island','2025-08-13 02:39:42','2025-08-13 02:39:42'),
 (2,1,'Al Raha','2025-08-13 02:39:42','2025-08-13 02:39:42'),
 (3,1,'Al Khalidiyah','2025-08-13 02:39:42','2025-08-13 02:39:42'),
@@ -155,7 +155,7 @@ CREATE TABLE `ec_attachments` (
 
 LOCK TABLES `ec_attachments` WRITE;
 
-insert  into `ec_attachments`(`id`,`file_path`,`file_type`,`file_name`,`attachable_type`,`attachable_id`,`created_at`,`updated_at`) values 
+insert  into `ec_attachments`(`id`,`file_path`,`file_type`,`file_name`,`attachable_type`,`attachable_id`,`created_at`,`updated_at`) values
 ('0198d7ed-258c-73f3-a326-e1ad47441cbd','attachments/WpuDd5E8wKScw86faZc5gwfH7Ugz8YbxebO0jkWq.jpg','image/jpeg','02.jpg','App\\Models\\Catalog\\ProductVariant','0198d7ed-2521-72fd-a60b-02182a9061b5','2025-08-23 21:14:59','2025-08-23 21:14:59'),
 ('0198d7ef-725f-706d-939e-e6f67da389e9','attachments/43h8G8GWUhCtGKdqiP8spXf33GAHIg4A8apMLNv5.jpg','image/jpeg','01.jpg','App\\Models\\Catalog\\ProductVariant','0198d7ef-7251-70d7-aaf8-f4440ab9268d','2025-08-23 21:17:30','2025-08-23 21:17:30'),
 ('0198d7f1-8d65-726d-9510-a135ea7fb922','attachments/cSXF8czLH6KT94rrnpoOOaKqymqatIJTRLzzQnpz.jpg','image/jpeg','03.jpg','App\\Models\\Catalog\\ProductVariant','0198d7f1-8d59-7048-8dff-09dc96ea3a81','2025-08-23 21:19:48','2025-08-23 21:19:48'),
@@ -187,7 +187,7 @@ CREATE TABLE `ec_attribute_values` (
 
 LOCK TABLES `ec_attribute_values` WRITE;
 
-insert  into `ec_attribute_values`(`id`,`attribute_id`,`value`) values 
+insert  into `ec_attribute_values`(`id`,`attribute_id`,`value`) values
 ('019b1723-3e59-7235-9bd7-519651c62288','0198d7ea-5f49-7280-bd7c-b692a53ef2f1','NHS'),
 ('019b1723-3e5d-7081-bc21-5bc559c1db0d','0198d7ea-5f49-7280-bd7c-b692a53ef2f1','Non-NHS'),
 ('019b1723-3e60-7097-ada7-cdf34b2c372c','0198d7ea-5f49-7280-bd7c-b692a53ef2f1','Veterinary'),
@@ -286,7 +286,7 @@ CREATE TABLE `ec_attributes` (
 
 LOCK TABLES `ec_attributes` WRITE;
 
-insert  into `ec_attributes`(`id`,`name`,`created_at`,`updated_at`,`deleted_at`) values 
+insert  into `ec_attributes`(`id`,`name`,`created_at`,`updated_at`,`deleted_at`) values
 ('0198d7ea-5f49-7280-bd7c-b692a53ef2f1','Bag Type','2025-08-23 21:11:58','2025-12-13 13:55:44',NULL),
 ('019b172b-07ed-71eb-a89c-cd1e619f07c4','Bag Size','2025-12-13 14:04:14','2025-12-13 14:04:14',NULL),
 ('019b172c-2c1b-7213-90e2-abe051873b4a','Bag Capacity','2025-12-13 14:05:29','2025-12-13 14:05:29',NULL),
@@ -317,7 +317,7 @@ CREATE TABLE `ec_banner_translations` (
 
 LOCK TABLES `ec_banner_translations` WRITE;
 
-insert  into `ec_banner_translations`(`id`,`banner_id`,`locale`,`title`,`subtitle`,`description`,`created_at`,`updated_at`) values 
+insert  into `ec_banner_translations`(`id`,`banner_id`,`locale`,`title`,`subtitle`,`description`,`created_at`,`updated_at`) values
 ('0198f285-f40c-738a-8cfe-e5c3ce28522d','0198f285-f3f0-7306-b3c9-8783ae6bf250','en','Cost-effective, hassle-free custom printing','Custom Printing','Upgrade your packaging to a premium custom design. Discover our print options and how we create pharmaceutical packaging that meets your vision.','2025-08-29 01:12:01','2025-12-13 10:52:54');
 
 UNLOCK TABLES;
@@ -346,7 +346,7 @@ CREATE TABLE `ec_banners` (
 
 LOCK TABLES `ec_banners` WRITE;
 
-insert  into `ec_banners`(`id`,`image`,`background`,`text_color`,`btn_text`,`btn_color`,`btn_link`,`position`,`is_active`,`created_at`,`updated_at`,`deleted_at`) values 
+insert  into `ec_banners`(`id`,`image`,`background`,`text_color`,`btn_text`,`btn_color`,`btn_link`,`position`,`is_active`,`created_at`,`updated_at`,`deleted_at`) values
 ('0198f285-f3f0-7306-b3c9-8783ae6bf250','banners/zpMhPE6tnjnWWymzDHJ6ChzbaAGWge2qKQlg5EIW.png','banners/220Zapm2v2bF0I578oyLXFboekbX2iSVR5iVeQGK.webp','#000000','Shop Now','#4e97fd','/products/',1,1,'2025-08-29 01:12:01','2025-12-13 10:51:18',NULL);
 
 UNLOCK TABLES;
@@ -401,7 +401,7 @@ CREATE TABLE `ec_brands` (
 
 LOCK TABLES `ec_brands` WRITE;
 
-insert  into `ec_brands`(`id`,`name`,`slug`,`logo`,`is_active`,`position`,`created_at`,`updated_at`,`deleted_at`) values 
+insert  into `ec_brands`(`id`,`name`,`slug`,`logo`,`is_active`,`position`,`created_at`,`updated_at`,`deleted_at`) values
 ('019b1731-7261-71d1-8235-08cf8cbf6f7e','ProPac™','proboxreg','brands/7F6EXmXRmXpIGW6NS8eHEy17VQyTIU41PQtGqoq0.jpg',1,2,'2025-12-13 14:11:15','2025-12-13 14:11:15',NULL);
 
 UNLOCK TABLES;
@@ -421,8 +421,8 @@ CREATE TABLE `ec_cache` (
 
 LOCK TABLES `ec_cache` WRITE;
 
-insert  into `ec_cache`(`key`,`value`,`expiration`) values 
-('medibazar_cache_app_settings','a:0:{}',2070398388),
+insert  into `ec_cache`(`key`,`value`,`expiration`) values
+('optiqtip_oms_cache_app_settings','a:0:{}',2070398388),
 ('optimised_medical_supplies_cache_admin@gmail.com|2001:8f8:1a3d:b:8c96:ab42:edee:4d5b','i:1;',1756417677),
 ('optimised_medical_supplies_cache_admin@gmail.com|2001:8f8:1a3d:b:8c96:ab42:edee:4d5b:timer','i:1756417677;',1756417677),
 ('optimised_medical_supplies_cache_app_settings','a:14:{s:10:\"site_title\";s:26:\"Optimised Medical Supplies\";s:13:\"contact_email\";s:32:\"info@optimisedmedicalsupplie.com\";s:13:\"contact_phone\";s:11:\"01234567899\";s:7:\"address\";s:49:\"The cottage, Old berrow manor, birmingham, B955PF\";s:9:\"copyright\";s:57:\"Optimised Medical Supplies ©  2025.  All Rights Reserved\";s:9:\"site_logo\";s:54:\"settings/nqiWzZqIfwIB9R7CRxWrOiIajmTXMTBVx7tCWOdc.webp\";s:16:\"site_footer_logo\";s:54:\"settings/trSI5PZcpZu8yIfRmNrdpOBZONfSMguNW2Ui3DlV.webp\";s:12:\"site_favicon\";s:54:\"settings/zWYbpWRytOcPfsTsu8SG1ciPSXrHGzzjaVjbOZFt.webp\";s:8:\"facebook\";s:25:\"https://www.facebook.com/\";s:9:\"instagram\";s:26:\"https://www.instagram.com/\";s:8:\"linkedin\";N;s:9:\"pinterest\";N;s:7:\"twitter\";s:17:\"https://www.x.com\";s:10:\"site_intro\";s:100:\"But must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born\";}',2071440449),
@@ -517,7 +517,7 @@ CREATE TABLE `ec_categories` (
 
 LOCK TABLES `ec_categories` WRITE;
 
-insert  into `ec_categories`(`id`,`slug`,`icon`,`image`,`banner_image`,`background_color`,`text_color`,`parent_id`,`position`,`is_visible`,`show_on_homepage`,`created_at`,`updated_at`,`deleted_at`) values 
+insert  into `ec_categories`(`id`,`slug`,`icon`,`image`,`banner_image`,`background_color`,`text_color`,`parent_id`,`position`,`is_visible`,`show_on_homepage`,`created_at`,`updated_at`,`deleted_at`) values
 ('0198d3f6-2f07-716a-ab44-8dab08ae7c0e','new-kinder-to-our-planet-collection','categories/42yr2HcADs3gjkTrzam1sbSngqZ54RGPIgOLaaj6.jpg','categories/vCkKJzEXqTadYdqMranXCYOcP6MfUEB3DtDgD6ZX.jpg',NULL,'#000000','#000000',NULL,8,1,1,'2025-08-23 02:46:23','2025-12-13 10:38:33',NULL),
 ('0198d7df-f004-7182-bf7a-b106ac223520','lab-supplies','categories/QZlXwB8UEeOX7VJBcx1vGA43fiXtFMBM01KqWqSN.jpg','categories/5e8vWobuUJuAPVqkx4vcAAbhUwtcNNxsvuUoiLmK.jpg',NULL,'#000000','#000000',NULL,6,1,1,'2025-08-23 21:00:34','2025-12-13 10:36:04',NULL),
 ('0198d7e5-a650-7368-9bba-655e8ae5d0ee','medical-furniture','categories/yMxeQBqlcqYJEqTQ8q4I4Q05CVBINrnJ8q00MbKG.jpg','categories/ClE39Ohji5uW7PaLgwaCaGxhRuM3AE4INiEvHqpO.jpg',NULL,'#000000','#000000',NULL,3,1,1,'2025-08-23 21:06:48','2025-12-13 10:35:01',NULL),
@@ -544,7 +544,7 @@ CREATE TABLE `ec_category_attributes` (
 
 LOCK TABLES `ec_category_attributes` WRITE;
 
-insert  into `ec_category_attributes`(`category_id`,`attribute_id`) values 
+insert  into `ec_category_attributes`(`category_id`,`attribute_id`) values
 ('0198d7df-f004-7182-bf7a-b106ac223520','0198d7ea-5f49-7280-bd7c-b692a53ef2f1'),
 ('0198d7e5-a650-7368-9bba-655e8ae5d0ee','0198d7ea-5f49-7280-bd7c-b692a53ef2f1'),
 ('0198d7e6-3c13-725a-be80-c9f5909d31ac','0198d7ea-5f49-7280-bd7c-b692a53ef2f1'),
@@ -576,7 +576,7 @@ CREATE TABLE `ec_category_translations` (
 
 LOCK TABLES `ec_category_translations` WRITE;
 
-insert  into `ec_category_translations`(`id`,`category_id`,`locale`,`name`) values 
+insert  into `ec_category_translations`(`id`,`category_id`,`locale`,`name`) values
 (1,'0198d3f6-2f07-716a-ab44-8dab08ae7c0e','en','\"Kinder to Our Planet\" Collection'),
 (2,'0198d7df-f004-7182-bf7a-b106ac223520','en','Lab Supplies'),
 (3,'0198d7e5-a650-7368-9bba-655e8ae5d0ee','en','Medical Furniture'),
@@ -606,7 +606,7 @@ CREATE TABLE `ec_cities` (
 
 LOCK TABLES `ec_cities` WRITE;
 
-insert  into `ec_cities`(`id`,`province_id`,`name`,`created_at`,`updated_at`) values 
+insert  into `ec_cities`(`id`,`province_id`,`name`,`created_at`,`updated_at`) values
 (1,1,'Abu Dhabi','2025-08-13 02:39:42','2025-08-13 02:39:42'),
 (2,1,'Al Ain','2025-08-13 02:39:42','2025-08-13 02:39:42'),
 (3,2,'Dubai','2025-08-13 02:39:42','2025-08-13 02:39:42'),
@@ -643,7 +643,7 @@ CREATE TABLE `ec_countries` (
 
 LOCK TABLES `ec_countries` WRITE;
 
-insert  into `ec_countries`(`id`,`code`,`name`,`currency_id`,`icon`,`created_at`,`updated_at`,`tax_label`,`tax_percentage`) values 
+insert  into `ec_countries`(`id`,`code`,`name`,`currency_id`,`icon`,`created_at`,`updated_at`,`tax_label`,`tax_percentage`) values
 (1,'UA','United Arab Emirates',0,'','2025-08-13 02:39:42','2025-08-13 02:39:42','',0.00);
 
 UNLOCK TABLES;
@@ -741,7 +741,7 @@ CREATE TABLE `ec_currencies` (
 
 LOCK TABLES `ec_currencies` WRITE;
 
-insert  into `ec_currencies`(`id`,`code`,`name`,`symbol`,`decimal`,`group_separator`,`decimal_separator`,`currency_position`,`created_at`,`updated_at`,`deleted_at`,`symbol_html`,`is_default`,`exchange_rate`) values 
+insert  into `ec_currencies`(`id`,`code`,`name`,`symbol`,`decimal`,`group_separator`,`decimal_separator`,`currency_position`,`created_at`,`updated_at`,`deleted_at`,`symbol_html`,`is_default`,`exchange_rate`) values
 (1,'AED','United Arab Emirates Dirham','د.إ',2,',','.','Right','2025-08-13 02:39:42','2025-08-13 02:39:42',NULL,'',0,0.0000),
 (2,'USD','US Dollar','$',2,',','.','Left','2025-08-13 02:39:42','2025-08-13 02:39:42',NULL,'',0,0.0000),
 (3,'EUR','Euro','€',2,'.',',','Left','2025-08-13 02:39:42','2025-08-13 02:39:42',NULL,'',0,0.0000),
@@ -975,7 +975,7 @@ CREATE TABLE `ec_locales` (
 
 LOCK TABLES `ec_locales` WRITE;
 
-insert  into `ec_locales`(`id`,`code`,`name`,`logo`,`direction`,`created_at`,`updated_at`,`deleted_at`) values 
+insert  into `ec_locales`(`id`,`code`,`name`,`logo`,`direction`,`created_at`,`updated_at`,`deleted_at`) values
 (1,'en','English',NULL,'ltr','2025-08-13 02:39:42','2025-08-13 02:39:42',NULL);
 
 UNLOCK TABLES;
@@ -1020,7 +1020,7 @@ CREATE TABLE `ec_metas` (
 
 LOCK TABLES `ec_metas` WRITE;
 
-insert  into `ec_metas`(`id`,`metable_type`,`metable_id`,`locale`,`meta_title`,`meta_description`,`meta_keywords`,`created_at`,`updated_at`) values 
+insert  into `ec_metas`(`id`,`metable_type`,`metable_id`,`locale`,`meta_title`,`meta_description`,`meta_keywords`,`created_at`,`updated_at`) values
 (1,'App\\Models\\CMS\\Page','0198a078-f8d6-7131-b895-28a70d1d6ef0','en','Optimised Medical Supplies','Shop for our products at exclusive prices Optimised Medical Supplies Ltd SHOP NOW! Surgical Gloves Face Masks Hand Sanitizers Essential Medicines from £22.99 to £17.99 Shop for our products at exclusive prices Medical & Pharmaceutical Supplies SHOP NOW! Free Shipping Enjoy free shipping on all…',NULL,'2025-08-13 02:48:59','2025-08-13 02:48:59'),
 (2,'App\\Models\\CMS\\Page','0198a07a-9302-70cc-91b9-bacb1baac14f','en','Contact Us – Optimised Medical Supplies','Contact Us Address The cottage, Old berrow manor, birmingham, B955PF phone number +012 345 678 99 +457 789 789 65 Email info@optimisedmedicalsuppli',NULL,'2025-08-13 02:50:44','2025-08-13 02:50:44'),
 (3,'App\\Models\\Catalog\\Product','0198d7f4-59a3-7374-bcea-8746781160f2','en',NULL,NULL,NULL,'2025-08-23 21:35:21','2025-08-23 21:35:21'),
@@ -1052,7 +1052,7 @@ CREATE TABLE `ec_migrations` (
 
 LOCK TABLES `ec_migrations` WRITE;
 
-insert  into `ec_migrations`(`id`,`migration`,`batch`) values 
+insert  into `ec_migrations`(`id`,`migration`,`batch`) values
 (1,'0001_01_01_000000_create_users_table',1),
 (2,'0001_01_01_000001_create_cache_table',1),
 (3,'0001_01_01_000002_create_jobs_table',1),
@@ -1152,7 +1152,7 @@ CREATE TABLE `ec_news` (
 
 LOCK TABLES `ec_news` WRITE;
 
-insert  into `ec_news`(`id`,`category_id`,`author`,`slug`,`is_guide`,`is_active`,`position`,`published_at`,`thumbnail`,`image`,`created_at`,`updated_at`,`deleted_at`) values 
+insert  into `ec_news`(`id`,`category_id`,`author`,`slug`,`is_guide`,`is_active`,`position`,`published_at`,`thumbnail`,`image`,`created_at`,`updated_at`,`deleted_at`) values
 ('019911d5-708b-7067-9cf6-cf37d2c9cd18','0198d3f6-2f07-716a-ab44-8dab08ae7c0e','Rosalina Pong','essential-medical-equipment-usecases',0,1,1,'2025-09-04 03:04:00','news/1H1Hv9bdfSCdsL0lWwEUimdBLeHCOsw7sIQYer2Q.png','news/S0enL6fcyDNfUhTu3AOxTDf4s2fjDFniK9Zy2WYE.png','2025-09-04 03:07:04','2025-12-04 11:27:22',NULL);
 
 UNLOCK TABLES;
@@ -1177,7 +1177,7 @@ CREATE TABLE `ec_news_translations` (
 
 LOCK TABLES `ec_news_translations` WRITE;
 
-insert  into `ec_news_translations`(`id`,`news_id`,`locale`,`title`,`intro`,`description`) values 
+insert  into `ec_news_translations`(`id`,`news_id`,`locale`,`title`,`intro`,`description`) values
 (1,'019911d5-708b-7067-9cf6-cf37d2c9cd18','en','Essential Medical Equipment: Types, Benefits & Real-World Use Cases Explained','<p>Medical equipment forms the foundation of modern healthcare, helping doctors diagnose illnesses, monitor patient conditions, and deliver effective treatment. From basic tools like thermometers to advanced machines like ventilators and ECGs, each device plays a crucial role in improving patient outcomes. In this guide, we explore essential medical equipment and their real-world use cases.</p>','<div class=\"blog-text\">\r\n<h2 data-start=\"614\" data-end=\"635\"><strong data-start=\"617\" data-end=\"633\">Introduction</strong></h2>\r\n<p data-start=\"636\" data-end=\"1020\">Medical equipment plays a vital role in diagnosing, monitoring, and treating patients across hospitals, clinics, laboratories, and even home-care setups. With rapid advancements in technology, modern healthcare now depends on accurate, reliable, and easy-to-use devices. This article explores the most essential medical equipment, their importance, and practical real-world use cases.</p>\r\n<hr data-start=\"1022\" data-end=\"1025\">\r\n<h2 data-start=\"1027\" data-end=\"1059\"><strong data-start=\"1030\" data-end=\"1057\">1. Diagnostic Equipment</strong></h2>\r\n<p data-start=\"1060\" data-end=\"1131\">Diagnostic devices help doctors identify diseases early and accurately.</p>\r\n<h3 data-start=\"1133\" data-end=\"1159\"><strong data-start=\"1137\" data-end=\"1157\">Common Examples:</strong></h3>\r\n<ul data-start=\"1160\" data-end=\"1500\">\r\n<li data-start=\"1160\" data-end=\"1222\">\r\n<p data-start=\"1162\" data-end=\"1222\"><strong data-start=\"1162\" data-end=\"1177\">Stethoscope</strong> &ndash; Used to listen to heart and lung sounds.</p>\r\n</li>\r\n<li data-start=\"1223\" data-end=\"1316\">\r\n<p data-start=\"1225\" data-end=\"1316\"><strong data-start=\"1225\" data-end=\"1264\">Blood Pressure Monitor (BP Machine)</strong> &ndash; Measures blood pressure quickly and accurately.</p>\r\n</li>\r\n<li data-start=\"1317\" data-end=\"1365\">\r\n<p data-start=\"1319\" data-end=\"1365\"><strong data-start=\"1319\" data-end=\"1334\">Thermometer</strong> &ndash; Measures body temperature.</p>\r\n</li>\r\n<li data-start=\"1366\" data-end=\"1429\">\r\n<p data-start=\"1368\" data-end=\"1429\"><strong data-start=\"1368\" data-end=\"1383\">ECG Machine</strong> &ndash; Detects electrical activity of the heart.</p>\r\n</li>\r\n<li data-start=\"1430\" data-end=\"1500\">\r\n<p data-start=\"1432\" data-end=\"1500\"><strong data-start=\"1432\" data-end=\"1454\">Ultrasound Machine</strong> &ndash; Creates internal body images for diagnosis.</p>\r\n</li>\r\n</ul>\r\n<h3 data-start=\"1502\" data-end=\"1522\"><strong data-start=\"1506\" data-end=\"1520\">Use Cases:</strong></h3>\r\n<ul data-start=\"1523\" data-end=\"1700\">\r\n<li data-start=\"1523\" data-end=\"1636\">\r\n<p data-start=\"1525\" data-end=\"1636\">Detecting heart problems, fever, infections, pregnancy monitoring, internal injuries, and chronic conditions.</p>\r\n</li>\r\n<li data-start=\"1637\" data-end=\"1700\">\r\n<p data-start=\"1639\" data-end=\"1700\">Essential during routine check-ups and emergency assessments.</p>\r\n</li>\r\n</ul>\r\n<hr data-start=\"1702\" data-end=\"1705\">\r\n<h2 data-start=\"1707\" data-end=\"1739\"><strong data-start=\"1710\" data-end=\"1737\">2. Monitoring Equipment</strong></h2>\r\n<p data-start=\"1740\" data-end=\"1805\">Monitoring equipment helps track patient conditions continuously.</p>\r\n<h3 data-start=\"1807\" data-end=\"1833\"><strong data-start=\"1811\" data-end=\"1831\">Common Examples:</strong></h3>\r\n<ul data-start=\"1834\" data-end=\"2030\">\r\n<li data-start=\"1834\" data-end=\"1886\">\r\n<p data-start=\"1836\" data-end=\"1886\"><strong data-start=\"1836\" data-end=\"1854\">Pulse Oximeter</strong> &ndash; Measures oxygen saturation.</p>\r\n</li>\r\n<li data-start=\"1887\" data-end=\"1970\">\r\n<p data-start=\"1889\" data-end=\"1970\"><strong data-start=\"1889\" data-end=\"1909\">Patient Monitors</strong> &ndash; Track heart rate, respiratory rate, BP, and temperature.</p>\r\n</li>\r\n<li data-start=\"1971\" data-end=\"2030\">\r\n<p data-start=\"1973\" data-end=\"2030\"><strong data-start=\"1973\" data-end=\"1988\">Glucometers</strong> &ndash; Used for monitoring blood sugar levels.</p>\r\n</li>\r\n</ul>\r\n<h3 data-start=\"2032\" data-end=\"2052\"><strong data-start=\"2036\" data-end=\"2050\">Use Cases:</strong></h3>\r\n<ul data-start=\"2053\" data-end=\"2225\">\r\n<li data-start=\"2053\" data-end=\"2143\">\r\n<p data-start=\"2055\" data-end=\"2143\">Used in ICUs, emergency rooms, operating theaters, and home-care for chronic patients.</p>\r\n</li>\r\n<li data-start=\"2144\" data-end=\"2225\">\r\n<p data-start=\"2146\" data-end=\"2225\">Helpful in managing diabetes, respiratory illnesses, and post-surgery recovery.</p>\r\n</li>\r\n</ul>\r\n<hr data-start=\"2227\" data-end=\"2230\">\r\n<h2 data-start=\"2232\" data-end=\"2263\"><strong data-start=\"2235\" data-end=\"2261\">3. Treatment Equipment</strong></h2>\r\n<p data-start=\"2264\" data-end=\"2323\">These devices directly support or treat medical conditions.</p>\r\n<h3 data-start=\"2325\" data-end=\"2351\"><strong data-start=\"2329\" data-end=\"2349\">Common Examples:</strong></h3>\r\n<ul data-start=\"2352\" data-end=\"2645\">\r\n<li data-start=\"2352\" data-end=\"2411\">\r\n<p data-start=\"2354\" data-end=\"2411\"><strong data-start=\"2354\" data-end=\"2369\">Ventilators</strong> &ndash; Provide artificial breathing support.</p>\r\n</li>\r\n<li data-start=\"2412\" data-end=\"2487\">\r\n<p data-start=\"2414\" data-end=\"2487\"><strong data-start=\"2414\" data-end=\"2432\">Infusion Pumps</strong> &ndash; Deliver fluids or medications at controlled rates.</p>\r\n</li>\r\n<li data-start=\"2488\" data-end=\"2571\">\r\n<p data-start=\"2490\" data-end=\"2571\"><strong data-start=\"2490\" data-end=\"2504\">Nebulizers</strong> &ndash; Convert liquid medication into mist for respiratory treatment.</p>\r\n</li>\r\n<li data-start=\"2572\" data-end=\"2645\">\r\n<p data-start=\"2574\" data-end=\"2645\"><strong data-start=\"2574\" data-end=\"2592\">Defibrillators</strong> &ndash; Restore normal heart rhythm during cardiac arrest.</p>\r\n</li>\r\n</ul>\r\n<h3 data-start=\"2647\" data-end=\"2667\"><strong data-start=\"2651\" data-end=\"2665\">Use Cases:</strong></h3>\r\n<ul data-start=\"2668\" data-end=\"2814\">\r\n<li data-start=\"2668\" data-end=\"2719\">\r\n<p data-start=\"2670\" data-end=\"2719\">Life-saving support during critical conditions.</p>\r\n</li>\r\n<li data-start=\"2720\" data-end=\"2814\">\r\n<p data-start=\"2722\" data-end=\"2814\">Widely used in hospitals, ambulances, and home-care setups for chronic respiratory patients.</p>\r\n</li>\r\n</ul>\r\n<hr data-start=\"2816\" data-end=\"2819\">\r\n<h2 data-start=\"2821\" data-end=\"2851\"><strong data-start=\"2824\" data-end=\"2849\">4. Surgical Equipment</strong></h2>\r\n<p data-start=\"2852\" data-end=\"2898\">These tools assist surgeons during operations.</p>\r\n<h3 data-start=\"2900\" data-end=\"2926\"><strong data-start=\"2904\" data-end=\"2924\">Common Examples:</strong></h3>\r\n<ul data-start=\"2927\" data-end=\"3041\">\r\n<li data-start=\"2927\" data-end=\"2943\">\r\n<p data-start=\"2929\" data-end=\"2943\"><strong data-start=\"2929\" data-end=\"2941\">Scalpels</strong></p>\r\n</li>\r\n<li data-start=\"2944\" data-end=\"2969\">\r\n<p data-start=\"2946\" data-end=\"2969\"><strong data-start=\"2946\" data-end=\"2967\">Surgical scissors</strong></p>\r\n</li>\r\n<li data-start=\"2970\" data-end=\"2996\">\r\n<p data-start=\"2972\" data-end=\"2996\"><strong data-start=\"2972\" data-end=\"2994\">Sutures &amp; staplers</strong></p>\r\n</li>\r\n<li data-start=\"2997\" data-end=\"3012\">\r\n<p data-start=\"2999\" data-end=\"3012\"><strong data-start=\"2999\" data-end=\"3010\">Forceps</strong></p>\r\n</li>\r\n<li data-start=\"3013\" data-end=\"3041\">\r\n<p data-start=\"3015\" data-end=\"3041\"><strong data-start=\"3015\" data-end=\"3041\">Endoscopic instruments</strong></p>\r\n</li>\r\n</ul>\r\n<h3 data-start=\"3043\" data-end=\"3063\"><strong data-start=\"3047\" data-end=\"3061\">Use Cases:</strong></h3>\r\n<ul data-start=\"3064\" data-end=\"3239\">\r\n<li data-start=\"3064\" data-end=\"3127\">\r\n<p data-start=\"3066\" data-end=\"3127\">Required in hospitals, surgery centers, and dental clinics.</p>\r\n</li>\r\n<li data-start=\"3128\" data-end=\"3239\">\r\n<p data-start=\"3130\" data-end=\"3239\">Used for minor procedures to major operations like appendectomy, orthopedic surgeries, and cardiac surgeries.</p>\r\n</li>\r\n</ul>\r\n<hr data-start=\"3241\" data-end=\"3244\">\r\n<h2 data-start=\"3246\" data-end=\"3278\"><strong data-start=\"3249\" data-end=\"3276\">5. Laboratory Equipment</strong></h2>\r\n<p data-start=\"3279\" data-end=\"3320\">Used for diagnostic testing and research.</p>\r\n<h3 data-start=\"3322\" data-end=\"3348\"><strong data-start=\"3326\" data-end=\"3346\">Common Examples:</strong></h3>\r\n<ul data-start=\"3349\" data-end=\"3437\">\r\n<li data-start=\"3349\" data-end=\"3376\">\r\n<p data-start=\"3351\" data-end=\"3376\"><strong data-start=\"3351\" data-end=\"3374\">Centrifuge machines</strong></p>\r\n</li>\r\n<li data-start=\"3377\" data-end=\"3396\">\r\n<p data-start=\"3379\" data-end=\"3396\"><strong data-start=\"3379\" data-end=\"3394\">Microscopes</strong></p>\r\n</li>\r\n<li data-start=\"3397\" data-end=\"3420\">\r\n<p data-start=\"3399\" data-end=\"3420\"><strong data-start=\"3399\" data-end=\"3418\">Blood analyzers</strong></p>\r\n</li>\r\n<li data-start=\"3421\" data-end=\"3437\">\r\n<p data-start=\"3423\" data-end=\"3437\"><strong data-start=\"3423\" data-end=\"3437\">Incubators</strong></p>\r\n</li>\r\n</ul>\r\n<h3 data-start=\"3439\" data-end=\"3459\"><strong data-start=\"3443\" data-end=\"3457\">Use Cases:</strong></h3>\r\n<ul data-start=\"3460\" data-end=\"3595\">\r\n<li data-start=\"3460\" data-end=\"3501\">\r\n<p data-start=\"3462\" data-end=\"3501\">Testing blood, urine, tissue samples.</p>\r\n</li>\r\n<li data-start=\"3502\" data-end=\"3595\">\r\n<p data-start=\"3504\" data-end=\"3595\">Used widely in pathology labs, research institutions, and hospitals for accurate diagnosis.</p>\r\n</li>\r\n</ul>\r\n<hr data-start=\"3597\" data-end=\"3600\">\r\n<h2 data-start=\"3602\" data-end=\"3639\"><strong data-start=\"3605\" data-end=\"3637\">6. Home Healthcare Equipment</strong></h2>\r\n<p data-start=\"3640\" data-end=\"3702\">Growing demand due to remote care and post-treatment recovery.</p>\r\n<h3 data-start=\"3704\" data-end=\"3730\"><strong data-start=\"3708\" data-end=\"3728\">Common Examples:</strong></h3>\r\n<ul data-start=\"3731\" data-end=\"3855\">\r\n<li data-start=\"3731\" data-end=\"3758\">\r\n<p data-start=\"3733\" data-end=\"3758\"><strong data-start=\"3733\" data-end=\"3756\">Digital BP Monitors</strong></p>\r\n</li>\r\n<li data-start=\"3759\" data-end=\"3778\">\r\n<p data-start=\"3761\" data-end=\"3778\"><strong data-start=\"3761\" data-end=\"3776\">Glucometers</strong></p>\r\n</li>\r\n<li data-start=\"3779\" data-end=\"3797\">\r\n<p data-start=\"3781\" data-end=\"3797\"><strong data-start=\"3781\" data-end=\"3795\">Nebulizers</strong></p>\r\n</li>\r\n<li data-start=\"3798\" data-end=\"3836\">\r\n<p data-start=\"3800\" data-end=\"3836\"><strong data-start=\"3800\" data-end=\"3834\">Electric wheelchairs &amp; walkers</strong></p>\r\n</li>\r\n<li data-start=\"3837\" data-end=\"3855\">\r\n<p data-start=\"3839\" data-end=\"3855\"><strong data-start=\"3839\" data-end=\"3855\">Thermometers</strong></p>\r\n</li>\r\n</ul>\r\n<h3 data-start=\"3857\" data-end=\"3877\"><strong data-start=\"3861\" data-end=\"3875\">Use Cases:</strong></h3>\r\n<ul data-start=\"3878\" data-end=\"3987\">\r\n<li data-start=\"3878\" data-end=\"3916\">\r\n<p data-start=\"3880\" data-end=\"3916\">Managing chronic diseases at home.</p>\r\n</li>\r\n<li data-start=\"3917\" data-end=\"3987\">\r\n<p data-start=\"3919\" data-end=\"3987\">Elderly care, post-surgery monitoring, and remote health management.</p>\r\n</li>\r\n</ul>\r\n<hr data-start=\"3989\" data-end=\"3992\">\r\n<h2 data-start=\"3994\" data-end=\"4013\"><strong data-start=\"3997\" data-end=\"4011\">Conclusion</strong></h2>\r\n<p data-start=\"4014\" data-end=\"4358\">Medical equipment is the backbone of modern healthcare, supporting diagnosis, treatment, monitoring, and patient recovery. Whether in hospitals or at home, these devices ensure better accuracy, quick decision-making, and improved patient outcomes. As technology evolves, the demand for reliable and advanced medical equipment continues to grow.</p>\r\n</div>');
 
 UNLOCK TABLES;
@@ -1196,7 +1196,7 @@ CREATE TABLE `ec_offer_product_variants` (
 
 LOCK TABLES `ec_offer_product_variants` WRITE;
 
-insert  into `ec_offer_product_variants`(`offer_id`,`product_variant_id`) values 
+insert  into `ec_offer_product_variants`(`offer_id`,`product_variant_id`) values
 ('0198dd1e-72b5-7268-b53e-11507575ae2e','0198dcec-7007-724d-a1e2-caad426d4e18'),
 ('0198dd1e-72b5-7268-b53e-11507575ae2e','0198dd12-1eaa-724c-8bdf-eb090d08b0c5');
 
@@ -1224,7 +1224,7 @@ CREATE TABLE `ec_offer_translations` (
 
 LOCK TABLES `ec_offer_translations` WRITE;
 
-insert  into `ec_offer_translations`(`id`,`offer_id`,`locale`,`title`,`description`,`created_at`,`updated_at`) values 
+insert  into `ec_offer_translations`(`id`,`offer_id`,`locale`,`title`,`description`,`created_at`,`updated_at`) values
 ('0198dd1e-72c7-738c-8a60-3340e5b42ded','0198dd1e-72b5-7268-b53e-11507575ae2e','en','Deal Of This Week','Explore our latest products on this week deal','2025-08-24 21:26:56','2025-08-24 21:32:40');
 
 UNLOCK TABLES;
@@ -1257,7 +1257,7 @@ CREATE TABLE `ec_offers` (
 
 LOCK TABLES `ec_offers` WRITE;
 
-insert  into `ec_offers`(`id`,`discount_type`,`discount_value`,`starts_at`,`ends_at`,`is_active`,`banner_image`,`link_url`,`bg_color`,`position`,`created_at`,`updated_at`,`deleted_at`,`show_in_slider`) values 
+insert  into `ec_offers`(`id`,`discount_type`,`discount_value`,`starts_at`,`ends_at`,`is_active`,`banner_image`,`link_url`,`bg_color`,`position`,`created_at`,`updated_at`,`deleted_at`,`show_in_slider`) values
 ('0198dd1e-72b5-7268-b53e-11507575ae2e','percent',10.00,'2025-08-24 21:24:00','2025-08-31 23:25:00',1,NULL,NULL,NULL,0,'2025-08-24 21:26:56','2025-08-24 21:32:40',NULL,0);
 
 UNLOCK TABLES;
@@ -1341,7 +1341,7 @@ CREATE TABLE `ec_page_section_translations` (
 
 LOCK TABLES `ec_page_section_translations` WRITE;
 
-insert  into `ec_page_section_translations`(`id`,`page_section_id`,`locale`,`heading`,`content`,`created_at`,`updated_at`) values 
+insert  into `ec_page_section_translations`(`id`,`page_section_id`,`locale`,`heading`,`content`,`created_at`,`updated_at`) values
 (1,'6804d0ce-9561-46fc-8e73-34d46a289872','en','Conatct Us','<p>Sed ut perspiciatis unde omnis natus error</p>','2025-09-04 01:10:49','2025-09-04 03:30:24'),
 (2,'69ba6abd-bd3b-48c6-aebb-1ef2e961cafc','en','','','2025-09-04 01:10:49','2025-09-04 01:10:49'),
 (3,'0c340907-a113-4099-8343-1a02f1a2f74c','en','Send Us A Message','<p>Sed ut perspiciatis unde omnis iste natus error</p>','2025-09-04 01:10:49','2025-09-04 03:30:24'),
@@ -1384,7 +1384,7 @@ CREATE TABLE `ec_page_sections` (
 
 LOCK TABLES `ec_page_sections` WRITE;
 
-insert  into `ec_page_sections`(`id`,`page_id`,`type`,`image`,`settings`,`position`,`is_active`,`created_at`,`updated_at`,`deleted_at`) values 
+insert  into `ec_page_sections`(`id`,`page_id`,`type`,`image`,`settings`,`position`,`is_active`,`created_at`,`updated_at`,`deleted_at`) values
 ('e2e3c718-4abe-4a3b-b31a-11c65f98a5f2','01991177-050d-73c1-bf8d-25fba376278c','what-client-says','sections/viZvIsotifnShpb0zKPFUcVnrarA6EYhYrHQIVB3.jpg',NULL,0,1,'2025-09-04 01:29:41','2025-09-04 03:29:09',NULL),
 ('0c340907-a113-4099-8343-1a02f1a2f74c','0198f2a7-43f2-717f-aff5-9a486fcf3d09','contact-form',NULL,NULL,0,1,'2025-09-04 01:10:49','2025-09-04 03:30:24',NULL),
 ('69ba6abd-bd3b-48c6-aebb-1ef2e961cafc','0198f2a7-43f2-717f-aff5-9a486fcf3d09','main-section-icon','sections/U4UtFXSPb4HlV4ACdZaBBn6mL5F2mHFQ5QaVmQ5v.png',NULL,1,1,'2025-09-04 01:10:49','2025-09-04 03:30:24',NULL),
@@ -1426,7 +1426,7 @@ CREATE TABLE `ec_page_translations` (
 
 LOCK TABLES `ec_page_translations` WRITE;
 
-insert  into `ec_page_translations`(`id`,`page_id`,`locale`,`title`,`content`,`created_at`,`updated_at`) values 
+insert  into `ec_page_translations`(`id`,`page_id`,`locale`,`title`,`content`,`created_at`,`updated_at`) values
 (1,'0198f2a6-b73c-72d2-b4ef-bffd9bd4e8c9','en','Home','','2025-08-29 01:47:48','2025-08-29 01:47:48'),
 (2,'0198f2a7-43f2-717f-aff5-9a486fcf3d09','en','Contact','','2025-08-29 01:48:24','2025-08-29 01:48:24'),
 (3,'0198f2a8-024c-7150-b0b5-1b667f526193','en','Products','','2025-08-29 01:49:13','2025-08-29 01:49:13'),
@@ -1458,7 +1458,7 @@ CREATE TABLE `ec_pages` (
 
 LOCK TABLES `ec_pages` WRITE;
 
-insert  into `ec_pages`(`id`,`slug`,`banner`,`is_active`,`position`,`created_at`,`updated_at`,`deleted_at`) values 
+insert  into `ec_pages`(`id`,`slug`,`banner`,`is_active`,`position`,`created_at`,`updated_at`,`deleted_at`) values
 ('0198f2a6-b73c-72d2-b4ef-bffd9bd4e8c9','home',NULL,1,0,'2025-08-29 01:47:48','2025-08-29 01:47:48',NULL),
 ('0198f2a7-43f2-717f-aff5-9a486fcf3d09','contact-us','pages/8g3munjZw3T7K8XzAjpv9LH9bSva9eBYQdQ11vgm.jpg',1,6,'2025-08-29 01:48:24','2025-09-04 03:30:24',NULL),
 ('0198f2a8-024c-7150-b0b5-1b667f526193','products','pages/mK5gQOFzsIa2LQxzueoDHzFAhyQDTUfQrsCjOeZU.webp',1,0,'2025-08-29 01:49:13','2025-12-13 10:57:50',NULL),
@@ -1570,7 +1570,7 @@ CREATE TABLE `ec_product_translations` (
 
 LOCK TABLES `ec_product_translations` WRITE;
 
-insert  into `ec_product_translations`(`id`,`product_id`,`locale`,`name`,`description`) values 
+insert  into `ec_product_translations`(`id`,`product_id`,`locale`,`name`,`description`) values
 (1,'0198d3f7-b4d4-72f4-b5a1-edcca88e53e3','en','Temperature','Temperature'),
 (2,'0198d7ee-b250-700e-88ce-8e46cd9fbf5e','en','Thermometer',NULL),
 (3,'0198d7f1-1c88-73f0-add0-de69e53ee8db','en','Oximeter',NULL),
@@ -1597,7 +1597,7 @@ CREATE TABLE `ec_product_variant_attribute_value` (
 
 LOCK TABLES `ec_product_variant_attribute_value` WRITE;
 
-insert  into `ec_product_variant_attribute_value`(`product_variant_id`,`attribute_value_id`) values 
+insert  into `ec_product_variant_attribute_value`(`product_variant_id`,`attribute_value_id`) values
 ('0198d7ed-2521-72fd-a60b-02182a9061b5','0198d7ea-5f6c-71d3-8cdd-78effda034cb'),
 ('0198d7ef-7251-70d7-aaf8-f4440ab9268d','0198d7ea-5f6c-71d3-8cdd-78effda034cb'),
 ('0198d7f1-8d59-7048-8dff-09dc96ea3a81','0198d7ea-5f6c-71d3-8cdd-78effda034cb'),
@@ -1638,7 +1638,7 @@ CREATE TABLE `ec_product_variant_shippings` (
 
 LOCK TABLES `ec_product_variant_shippings` WRITE;
 
-insert  into `ec_product_variant_shippings`(`id`,`product_variant_id`,`length`,`width`,`height`,`weight`,`qty_per_carton`,`created_at`,`updated_at`) values 
+insert  into `ec_product_variant_shippings`(`id`,`product_variant_id`,`length`,`width`,`height`,`weight`,`qty_per_carton`,`created_at`,`updated_at`) values
 (1,'0198d7ed-2521-72fd-a60b-02182a9061b5',10.00,10.00,10.00,1.00,1.00,'2025-08-23 21:14:59','2025-08-23 21:14:59'),
 (2,'0198d7ef-7251-70d7-aaf8-f4440ab9268d',10.00,10.00,10.00,1.00,1.00,'2025-08-23 21:17:30','2025-08-23 21:17:30'),
 (3,'0198d7f1-8d59-7048-8dff-09dc96ea3a81',10.00,10.00,10.00,1.00,1.00,'2025-08-23 21:19:48','2025-08-23 21:19:48'),
@@ -1673,7 +1673,7 @@ CREATE TABLE `ec_product_variants` (
 
 LOCK TABLES `ec_product_variants` WRITE;
 
-insert  into `ec_product_variants`(`id`,`product_id`,`sku`,`price`,`stock`,`created_at`,`updated_at`,`deleted_at`) values 
+insert  into `ec_product_variants`(`id`,`product_id`,`sku`,`price`,`stock`,`created_at`,`updated_at`,`deleted_at`) values
 ('0198d7ed-2521-72fd-a60b-02182a9061b5','0198d3f7-b4d4-72f4-b5a1-edcca88e53e3','SKU-00001',400.00,10,'2025-08-23 21:14:59','2025-08-23 21:14:59',NULL),
 ('0198d7ef-7251-70d7-aaf8-f4440ab9268d','0198d7ee-b250-700e-88ce-8e46cd9fbf5e','SKU-00002',400.00,10,'2025-08-23 21:17:30','2025-08-23 21:17:30',NULL),
 ('0198d7f1-8d59-7048-8dff-09dc96ea3a81','0198d7f1-1c88-73f0-add0-de69e53ee8db','SKU-00003',400.00,10,'2025-08-23 21:19:48','2025-08-23 21:19:48',NULL),
@@ -1716,7 +1716,7 @@ CREATE TABLE `ec_products` (
 
 LOCK TABLES `ec_products` WRITE;
 
-insert  into `ec_products`(`id`,`category_id`,`brand_id`,`supplier_id`,`slug`,`is_active`,`is_featured`,`is_new`,`show_in_slider`,`position`,`created_at`,`updated_at`,`deleted_at`) values 
+insert  into `ec_products`(`id`,`category_id`,`brand_id`,`supplier_id`,`slug`,`is_active`,`is_featured`,`is_new`,`show_in_slider`,`position`,`created_at`,`updated_at`,`deleted_at`) values
 ('0198d3f7-b4d4-72f4-b5a1-edcca88e53e3','0198d3f6-2f07-716a-ab44-8dab08ae7c0e',NULL,NULL,'temperature',1,0,0,1,1,'2025-08-23 02:48:03','2025-12-13 14:07:01','2025-12-13 14:07:01'),
 ('0198d7ee-b250-700e-88ce-8e46cd9fbf5e','0198d7df-f004-7182-bf7a-b106ac223520',NULL,NULL,'thermometer',1,0,1,1,1,'2025-08-23 21:16:41','2025-12-13 14:07:06','2025-12-13 14:07:06'),
 ('0198d7f1-1c88-73f0-add0-de69e53ee8db','0198d7e5-a650-7368-9bba-655e8ae5d0ee',NULL,NULL,'Oximeter',1,0,1,1,2,'2025-08-23 21:19:19','2025-12-13 14:07:10','2025-12-13 14:07:10'),
@@ -1746,7 +1746,7 @@ CREATE TABLE `ec_provinces` (
 
 LOCK TABLES `ec_provinces` WRITE;
 
-insert  into `ec_provinces`(`id`,`country_id`,`name`,`created_at`,`updated_at`) values 
+insert  into `ec_provinces`(`id`,`country_id`,`name`,`created_at`,`updated_at`) values
 (1,1,'Abu Dhabi','2025-08-13 02:39:42','2025-08-13 02:39:42'),
 (2,1,'Dubai','2025-08-13 02:39:42','2025-08-13 02:39:42'),
 (3,1,'Sharjah','2025-08-13 02:39:42','2025-08-13 02:39:42'),
@@ -1812,7 +1812,7 @@ CREATE TABLE `ec_sessions` (
 
 LOCK TABLES `ec_sessions` WRITE;
 
-insert  into `ec_sessions`(`id`,`user_id`,`ip_address`,`user_agent`,`payload`,`last_activity`) values 
+insert  into `ec_sessions`(`id`,`user_id`,`ip_address`,`user_agent`,`payload`,`last_activity`) values
 ('46qlfNp04vJm9Uo3vaP58She1qtpQ71fGzfP9NDc',NULL,'127.0.0.1','Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.0.0 Safari/537.36','YTo0OntzOjY6Il90b2tlbiI7czo0MDoiaWhzRWh1QjFNaXRqMk5rZE1Pam91cHQzTlVNOXlwbFhQSnBQN1lOTCI7czo5OiJfcHJldmlvdXMiO2E6Mjp7czozOiJ1cmwiO3M6NDI6Imh0dHBzOi8veC1tZWQubG9jYWwvYWRtaW4vY2F0YWxvZy9wcm9kdWN0cyI7czo1OiJyb3V0ZSI7czoyODoiYWRtaW4uY2F0YWxvZy5wcm9kdWN0cy5pbmRleCI7fXM6NjoiX2ZsYXNoIjthOjI6e3M6Mzoib2xkIjthOjA6e31zOjM6Im5ldyI7YTowOnt9fXM6NTI6ImxvZ2luX2FkbWluXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTt9',1765889036);
 
 UNLOCK TABLES;
@@ -1835,7 +1835,7 @@ CREATE TABLE `ec_settings` (
 
 LOCK TABLES `ec_settings` WRITE;
 
-insert  into `ec_settings`(`id`,`key`,`value`,`created_at`,`updated_at`) values 
+insert  into `ec_settings`(`id`,`key`,`value`,`created_at`,`updated_at`) values
 (1,'site_title','Optimised Medical Supplies','2025-08-13 02:43:54','2025-08-13 02:43:54'),
 (2,'contact_email','info@optimisedmedicalsupplie.com','2025-08-13 02:43:54','2025-08-13 02:43:54'),
 (3,'contact_phone','01234567899','2025-08-13 02:43:54','2025-08-13 02:43:54'),
@@ -1927,7 +1927,7 @@ CREATE TABLE `ec_suppliers` (
 
 LOCK TABLES `ec_suppliers` WRITE;
 
-insert  into `ec_suppliers`(`id`,`name`,`email`,`phone`,`address`,`contact_person`,`is_active`,`created_at`,`updated_at`,`deleted_at`) values 
+insert  into `ec_suppliers`(`id`,`name`,`email`,`phone`,`address`,`contact_person`,`is_active`,`created_at`,`updated_at`,`deleted_at`) values
 (1,'J&P Bags ltd','jandp01@gmail.com','+44789536214','London, United Kingdom','Jack',1,'2025-12-16 12:18:27','2025-12-16 16:36:39',NULL);
 
 UNLOCK TABLES;
@@ -1945,7 +1945,7 @@ CREATE TABLE `ec_tag_product_variant` (
 
 LOCK TABLES `ec_tag_product_variant` WRITE;
 
-insert  into `ec_tag_product_variant`(`tag_id`,`product_variant_id`) values 
+insert  into `ec_tag_product_variant`(`tag_id`,`product_variant_id`) values
 ('0198d7ec-2fc7-73ce-8492-9f1e5d5e2445','0198d7ed-2521-72fd-a60b-02182a9061b5'),
 ('0198d7ec-2fc7-73ce-8492-9f1e5d5e2445','0198d7ef-7251-70d7-aaf8-f4440ab9268d'),
 ('0198d7ec-2fc7-73ce-8492-9f1e5d5e2445','0198d7f1-8d59-7048-8dff-09dc96ea3a81'),
@@ -1975,7 +1975,7 @@ CREATE TABLE `ec_tags` (
 
 LOCK TABLES `ec_tags` WRITE;
 
-insert  into `ec_tags`(`id`,`is_active`,`position`,`name`,`created_at`,`updated_at`,`deleted_at`) values 
+insert  into `ec_tags`(`id`,`is_active`,`position`,`name`,`created_at`,`updated_at`,`deleted_at`) values
 ('0198d7ec-2fc7-73ce-8492-9f1e5d5e2445',1,1,'Covid-19','2025-08-23 21:13:56','2025-08-23 21:13:56',NULL),
 ('0198d80a-a259-7203-ac58-c9a5d3898286',1,1,'Best Seller','2025-08-23 21:47:12','2025-08-23 21:47:12',NULL),
 ('0198d80a-de30-732b-bb3a-c08778287508',1,2,'Top Rated','2025-08-23 21:47:27','2025-08-23 21:47:27',NULL),
@@ -2002,7 +2002,7 @@ CREATE TABLE `ec_testimonial_translations` (
 
 LOCK TABLES `ec_testimonial_translations` WRITE;
 
-insert  into `ec_testimonial_translations`(`id`,`testimonial_id`,`locale`,`name`,`description`) values 
+insert  into `ec_testimonial_translations`(`id`,`testimonial_id`,`locale`,`name`,`description`) values
 (1,3,'','Sebastian Barry','Sed perspiciatis unde omnis iste natus erolup tatem accusantium doloremque laudantium totam\r\n                                reperiam eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta\r\n                                sunt explicabo.'),
 (2,3,'en','Sebastian Barry','Sed perspiciatis unde omnis iste natus erolup tatem accusantium doloremque laudantium totam\r\n                                reperiam eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta\r\n                                sunt explicabo.'),
 (3,4,'en','Oliver Greenwood','Sed perspiciatis unde omnis iste natus erolup tatem accusantium doloremque laudantium totam\r\n                                reperiam eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta\r\n                                sunt explicabo.');
@@ -2031,7 +2031,7 @@ CREATE TABLE `ec_testimonials` (
 
 LOCK TABLES `ec_testimonials` WRITE;
 
-insert  into `ec_testimonials`(`id`,`image`,`designation`,`company_name`,`company_logo`,`is_active`,`position`,`rating`,`created_at`,`updated_at`) values 
+insert  into `ec_testimonials`(`id`,`image`,`designation`,`company_name`,`company_logo`,`is_active`,`position`,`rating`,`created_at`,`updated_at`) values
 (3,'promos/sJXl39WthwkMrhTAVSqLSFviWdur8Z1p301Kmybj.png','Business Manager',NULL,NULL,1,99,5,'2025-08-25 02:41:31','2025-08-25 02:58:14'),
 (4,'testimonials/ro8HNPYapZ9VFWq0EuMsW8HK6fRjFZb5WxFsNKB4.png','Business Manager',NULL,NULL,1,99,5,'2025-08-25 02:59:21','2025-08-25 02:59:21');
 
@@ -2118,7 +2118,7 @@ CREATE TABLE `ec_users` (
 
 LOCK TABLES `ec_users` WRITE;
 
-insert  into `ec_users`(`id`,`name`,`email`,`email_verified_at`,`password`,`remember_token`,`last_login_at`,`password_changed_at`,`is_active`,`is_guest`,`created_at`,`updated_at`,`stripe_id`,`pm_type`,`pm_last_four`,`trial_ends_at`,`provider_id`,`provider_name`) values 
+insert  into `ec_users`(`id`,`name`,`email`,`email_verified_at`,`password`,`remember_token`,`last_login_at`,`password_changed_at`,`is_active`,`is_guest`,`created_at`,`updated_at`,`stripe_id`,`pm_type`,`pm_last_four`,`trial_ends_at`,`provider_id`,`provider_name`) values
 (1,'User','user@example.com',NULL,'$2y$12$p91x81vouUinP6ZdfsReAO6ifxzO22TzMe8OZWj6lqvGdT1veo2D6',NULL,NULL,NULL,1,0,'2025-08-13 02:39:42','2025-08-13 02:39:42',NULL,NULL,NULL,NULL,NULL,NULL);
 
 UNLOCK TABLES;

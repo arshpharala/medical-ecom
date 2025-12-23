@@ -1,4 +1,4 @@
-@extends('theme.medibazaar.layouts.app')
+@extends('theme.oms.layouts.app')
 @section('content')
 
 <style>
