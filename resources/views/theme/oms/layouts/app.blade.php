@@ -8,7 +8,11 @@
   {!! render_meta_tags($meta ?? null) !!}
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
+  @if (!empty(setting('site_favicon')))
+  <link rel="shortcut icon" type="image/x-icon" href="{{ setting('site_favicon') }}">
+  @else
   <link rel="shortcut icon" type="image/x-icon" href="{{ asset('theme/oms/assets/img/favicon.ico') }}">
+  @endif
 
 
   <link rel="stylesheet" href="{{ asset('theme/oms/assets/css/bootstrap.min.css') }}">

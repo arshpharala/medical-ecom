@@ -2,7 +2,7 @@
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="{{ route('admin.dashboard') }}" class="brand-link text-center">
-      <span class="brand-text font-weight-light text-center">Xtremez</span>
+      <span class="brand-text font-weight-light text-center">{{ setting('site_title', 'OMS') }}</span>
     </a>
 
     <!-- Sidebar -->

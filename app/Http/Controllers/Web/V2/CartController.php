@@ -47,7 +47,7 @@ class CartController extends Controller
         $data['variants']   = $variants;
         $data['page']       = $page;
 
-        return view('theme.medibazaar.cart', $data);
+        return view('theme.oms.cart', $data);
     }
 
     public function store(Request $request)
