@@ -30,6 +30,27 @@
               </div>
             </div>
           @endforeach
+          @foreach ($testimonials as $testimonial)
+            <div class="col-xl-6">
+              <div class="testimonial-wrapper">
+                <div class="inner-test d-flex justify-content-between align-items-center">
+                  <div class="test-img">
+                    <img src="{{ asset('storage/' . $testimonial->image) }}" alt="">
+                  </div>
+                  <div class="test-rating">
+                    @for ($i = 0; $i < $testimonial->rating; $i++)
+                      <i class="fas fa-star"></i>
+                    @endfor
+                  </div>
+                </div>
+                <div class="test-text">
+                  <p>{{ $testimonial->translation->description }}</p>
+                  <h4>{{ $testimonial->translation->name }}</h4>
+                                <span>{{ $testimonial->designation }}</span>
+                </div>
+              </div>
+            </div>
+          @endforeach
 
         </div>
       </div>
