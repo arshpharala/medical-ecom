@@ -120,7 +120,8 @@ class HomeController extends Controller
         $data['locale']     = $locale;
         $data['brands']     = $brands;
 
-        return view('theme.oms.home-2', $data);
+        return view('theme.oms.index', $data);
+        // return view('theme.oms.home-2', $data);
     }
 
     function contact()
