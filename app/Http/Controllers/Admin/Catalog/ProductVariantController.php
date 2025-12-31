@@ -82,7 +82,7 @@ class ProductVariantController extends Controller
             $variant->deleted_at    = null;
             $variant->save();
 
-            $variant->attributeValues()->sync(array_values($request['attributes']));
+            $variant->attributeValues()->sync(array_values($request['attributes'] ?? []));
             $variant->tags()->sync(array_values($request['tags'] ?? []));
 
             $variant->shipping()->updateOrCreate(
@@ -167,7 +167,7 @@ class ProductVariantController extends Controller
             // $variant->deleted_at    = null;
             $variant->save();
 
-            $variant->attributeValues()->sync(array_values($request['attributes']));
+            $variant->attributeValues()->sync(array_values($request['attributes'] ?? []));
             $variant->tags()->sync(array_values($request['tags'] ?? []));
 
             $variant->shipping()->updateOrCreate(

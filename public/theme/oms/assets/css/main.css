@@ -13378,6 +13378,8 @@ img.secondary-img {
 
 .product-02-img a img {
   transition: 0.3s;
+  width: auto;
+  height: 200px;
 }
 
 .product-02-wrapper:hover .product-02-img img {
@@ -13485,6 +13487,7 @@ img.secondary-img {
 }
 
 .product-03-wrapper {
+  min-height: 420px;
   padding: 48px 10px 35px 10px;
 }
 
