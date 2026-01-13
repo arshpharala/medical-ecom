@@ -46,7 +46,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-4 col-lg-3 col-md-4">
+                    <div class="col-xl-4 col-lg-3 col-md-4 d-none d-lg-block">
                         <div class="header-icon f-right">
                             @if (setting('facebook'))
                                 <a href="{{ setting('facebook') }}"><i class="fab fa-facebook-f"></i></a>
@@ -106,7 +106,7 @@
                 </div>
             </div>
         </div>
-        <div class="header-search-area pt-15 pb-15 pl-55 pr-55">
+        <div class="header-search-area pt-15 pb-15 pl-55 pr-55 d-none d-lg-block">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-xl-3 col-lg-3 col-md-6 col-6">
