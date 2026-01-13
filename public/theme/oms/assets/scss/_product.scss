@@ -148,6 +148,10 @@ img.secondary-img {
     & a{
         & img{
             transition: .3s;
+            // Custom
+            width: auto;
+            height: 200px;
+            //Finish Custom
         }
     }
 }
@@ -223,6 +227,7 @@ img.secondary-img {
   }
 }
 .product-03-wrapper {
+    max-height: 420px;
 	padding: 48px 10px 35px 10px;
 }
 .product-03-wrapper:hover .product-action {
