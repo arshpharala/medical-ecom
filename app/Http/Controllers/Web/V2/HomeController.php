@@ -131,13 +131,6 @@ class HomeController extends Controller
         $page = (new PageRepository())->findBySlug($slug);
 
         $data['page'] = $page;
-        $categories = Category::with('parent.translation')->withJoins()->withSelection()->visible()
-            ->where('show_on_homepage', true)
-            ->orderBy('position', 'asc')
-            ->get();
-
-
-        $data['categories']            = $categories;
 
         return view('theme.oms-v2.contact', $data);
     }
@@ -149,13 +142,6 @@ class HomeController extends Controller
         $page = (new PageRepository())->findBySlug($slug);
 
         $data['page'] = $page;
-      $categories = Category::with('parent.translation')->withJoins()->withSelection()->visible()
-            ->where('show_on_homepage', true)
-            ->orderBy('position', 'asc')
-            ->get();
-
-
-        $data['categories']            = $categories;
         return view('theme.oms-v2.about', $data);
     }
 
@@ -167,13 +153,6 @@ class HomeController extends Controller
         $page = (new PageRepository())->findOrFailBySlug($slug);
 
         $data['page'] = $page;
-      $categories = Category::with('parent.translation')->withJoins()->withSelection()->visible()
-            ->where('show_on_homepage', true)
-            ->orderBy('position', 'asc')
-            ->get();
-
-
-        $data['categories']            = $categories;
         return view('theme.oms-v2.page', $data);
     }
 

@@ -81,7 +81,7 @@
             </div>
             <div class="category-menu">
               <ul>
-                @foreach ($categories as $cat)
+                @foreach (header_categories() as $cat)
                   <li><a href="{{ route('products', ['category' => $cat->slug]) }}">{{ $cat->name }}</a>
                   </li>
                 @endforeach

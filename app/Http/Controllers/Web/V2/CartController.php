@@ -47,13 +47,6 @@ class CartController extends Controller
         $data['cart']       = $cart;
         $data['variants']   = $variants;
         $data['page']       = $page;
-        $categories = Category::with('parent.translation')->withJoins()->withSelection()->visible()
-            ->where('show_on_homepage', true)
-            ->orderBy('position', 'asc')
-            ->get();
-
-
-        $data['categories']            = $categories;
 
         return view('theme.oms-v2.cart', $data);
     }

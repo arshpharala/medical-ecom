@@ -31,13 +31,6 @@ class NewsController extends Controller
 
         $data['news'] = $news;
         $data['page'] = $page;
-        $categories = Category::with('parent.translation')->withJoins()->withSelection()->visible()
-            ->where('show_on_homepage', true)
-            ->orderBy('position', 'asc')
-            ->get();
-
-
-        $data['categories']            = $categories;
 
         return view('theme.oms-v2.news.index', $data);
     }

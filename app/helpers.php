@@ -256,3 +256,20 @@ if (!function_exists('menu_categories')) {
             ->get();
     }
 }
+
+if (!function_exists('header_categories')) {
+    /**
+     * Mask the sentive string
+     *
+     * @param int $limit
+     * @return Collection
+     */
+    function header_categories(int $limit = 10): Collection
+    {
+        return Category::with('parent.translation')->withJoins()->withSelection()->visible()
+            ->where('show_on_homepage', true)
+            ->orderBy('position', 'asc')
+            ->limit($limit)
+            ->get();
+    }
+}
