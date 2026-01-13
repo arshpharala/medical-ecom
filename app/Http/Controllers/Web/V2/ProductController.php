@@ -64,7 +64,7 @@ class ProductController extends Controller
         $data['brands']         = $brands;
         $data['tags']           = $tags;
 
-        return view('theme.oms.products.index', $data);;
+        return view('theme.oms-v2.products.index', $data);;
     }
 
     public function show($slug, $variantId, Request $request)
@@ -75,7 +75,6 @@ class ProductController extends Controller
         $attributes     = $this->extractAttributesFromVariants($product);
         $selected       = $this->getSelectedAttributes($productVariant);
         // $allVariants    = $this->formatAllVariants($product);
-
 
 
         $featuredProducts = ProductVariant::withJoins()
@@ -91,8 +90,15 @@ class ProductController extends Controller
         $data['productVariant']     = $productVariant;
         $data['attributes']         = $attributes;
         $data['selected']           = $selected;
+        $categories = Category::with('parent.translation')->withJoins()->withSelection()->visible()
+            ->where('show_on_homepage', true)
+            ->orderBy('position', 'asc')
+            ->get();
 
-        return view('theme.oms.products.show', $data);
+
+        $data['categories']            = $categories;
+
+        return view('theme.oms-v2.products.show', $data);
     }
 
     public function resolve(Request $request)
