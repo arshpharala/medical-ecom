@@ -7,6 +7,7 @@ use App\Services\CartService;
 use App\Services\PriceService;
 use Illuminate\Support\Collection;
 use App\Http\Controllers\Controller;
+use App\Models\Catalog\Category;
 use App\Repositories\PageRepository;
 use App\Models\Catalog\ProductVariant;
 use App\Repositories\ProductRepository;
@@ -46,8 +47,15 @@ class CartController extends Controller
         $data['cart']       = $cart;
         $data['variants']   = $variants;
         $data['page']       = $page;
+        $categories = Category::with('parent.translation')->withJoins()->withSelection()->visible()
+            ->where('show_on_homepage', true)
+            ->orderBy('position', 'asc')
+            ->get();
 
-        return view('theme.oms.cart', $data);
+
+        $data['categories']            = $categories;
+
+        return view('theme.oms-v2.cart', $data);
     }
 
     public function store(Request $request)

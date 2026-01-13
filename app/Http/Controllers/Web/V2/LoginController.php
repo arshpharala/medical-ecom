@@ -32,7 +32,7 @@ class LoginController extends Controller
         }
 
         $data['page'] = $page;
-        return view('theme.oms.auth.login', $data);
+        return view('theme.oms-v2.auth.login', $data);
     }
 
     /**
@@ -73,7 +73,7 @@ class LoginController extends Controller
      */
     public function forgotPassword()
     {
-        return view('theme.medibazaar.auth.forgot-password');
+        return view('theme.oms-v2.auth.forgot-password');
     }
 
     /**
@@ -108,7 +108,7 @@ class LoginController extends Controller
      */
     public function resetPasswordForm(Request $request, string $token)
     {
-        return view('theme.medibazaar.auth.reset-password', [
+        return view('theme.oms-v2.auth.reset-password', [
             'token' => $token,
             'email' => $request->email
         ]);
