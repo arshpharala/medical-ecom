@@ -32,7 +32,7 @@
 
   <!-- header-start -->
   <header>
-    <div class="header-area grey-3-bg pl-55 pr-55">
+    <div class="header-area grey-3-bg pl-55 pr-55 d-none d-lg-block">
       <div class="container-fluid">
         <div class="row">
           <div class="col-xl-8 col-lg-9 col-md-8">
@@ -45,7 +45,7 @@
               </div>
             </div>
           </div>
-          <div class="col-xl-4 col-lg-3 col-md-4 d-none d-lg-block">
+          <div class="col-xl-4 col-lg-3 col-md-4 ">
             <div class="header-icon f-right">
               @if (setting('facebook'))
                 <a href="{{ setting('facebook') }}"><i class="fab fa-facebook-f"></i></a>
