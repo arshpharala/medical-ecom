@@ -1,4 +1,19 @@
   <!-- header-start -->
+  <style>
+    @media (max-width: 767px) {
+      .header-02-search .header-search-form input {
+        height: 45px;
+      }
+      .header-02-search .header-search-form button {
+        height: 30px;
+        width: 30px;
+        top: 8px;
+        font-size: 15px;
+        line-height: 18px;
+      }
+    }
+  </style>
+
   <header>
     <div class="header-area grey-3-bg pl-55 pr-55 d-none d-lg-block">
       <div class="container-fluid">
@@ -34,7 +49,7 @@
         <div class="row align-items-center">
           <div class="col-xl-3 col-lg-3 col-md-3">
             <a href="{{ route('home') }}">
-              <img src="{{ asset(setting('site_logo')) }}" alt="{{ setting('site_name') }}" height="80px" />
+              <img src="{{ asset(setting('site_logo')) }}" alt="{{ setting('site_name') }}" height="60px" />
             </a>
           </div>
           <div class="col-xl-5 col-lg-6">
@@ -43,7 +58,7 @@
                 <ul>
 
                   <li class="active"><a href="{{ route('home') }}">Home </a></li>
-                  <li><a href="{{ route('products') }}">Products</a></li>
+                  <li><a href="{{ route('products') }}">Shop</a></li>
                   <li><a href="{{ route('news.index') }}">News</a></li>
                   <li><a href="{{ route('about-us') }}">About Us</a></li>
                   <li><a href="{{ route('contact-us') }}">Contact</a></li>
@@ -71,10 +86,10 @@
         </div>
       </div>
     </div>
-    <div class="header-search-area pt-15 pb-15 pl-55 pr-55 d-none d-lg-block">
+    <div class="header-search-area pt-15 pb-15 pl-55 pr-55">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-xl-3 col-lg-3 col-md-6 col-6">
+          <div class="col-xl-3 col-lg-3 col-md-6 col-3">
             <div class="menu-bar menu-bar-2">
               <a class="cat-toggle" href="#"><i class="fal fa-bars"></i></a>
               <span>Categories</span>
@@ -88,7 +103,7 @@
               </ul>
             </div>
           </div>
-          <div class="col-xl-6 col-lg-7 col-md-6 d-none d-lg-block">
+          <div class="col-xl-6 col-lg-7 col-md-6 col-9">
             <div class="header-search header-02-search ">
               <form action="{{ route('search') }}" class="header-search-form">
                 <input placeholder="Search" name="q" type="text">
