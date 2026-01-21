@@ -1,9 +1,19 @@
   <!-- header-start -->
   <style>
+    .mean-container .mean-nav {
+      background: #ffffff none repeat scroll 0 0;
+
+    }
+
+    .mean-container .mean-nav ul li a {
+      color: #777777;
+    }
+
     @media (max-width: 767px) {
       .header-02-search .header-search-form input {
         height: 45px;
       }
+
       .header-02-search .header-search-form button {
         height: 30px;
         width: 30px;
